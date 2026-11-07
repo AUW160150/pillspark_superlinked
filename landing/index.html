@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PillSpark</title>
+<meta name="description" content="PillSpark turns faxed and handwritten prescriptions into structured pharmacy orders on open models, and flags every uncertain field for a pharmacist instead of guessing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b6e77'/%3E%3Cpath d='M9 21.5 21.5 9a4.2 4.2 0 0 1 6 6L15 27.5a4.2 4.2 0 0 1-6-6Z' fill='none' stroke='white' stroke-width='2.4'/%3E%3Cpath d='m15.2 15.2 6 6' stroke='white' stroke-width='2.4'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#ffffff; --bg-soft:#f6f8fa; --bg-sunk:#eef2f6;
+  --ink:#0f172a; --ink-2:#334155; --ink-3:#64748b; --line:#e2e8f0; --line-2:#cbd5e1;
+  --accent:#0b6e77; --accent-ink:#ffffff; --accent-soft:#e3f2f3; --accent-strong:#085158;
+  --ok:#15803d; --ok-bg:#e8f5ec; --warn:#a15c07; --warn-bg:#fdf3e1; --bad:#b42318; --bad-bg:#fdecea;
+  --miss:#475569; --miss-bg:#eef2f6;
+  --radius:12px; --shadow:0 1px 2px rgba(15,23,42,.06),0 8px 24px -12px rgba(15,23,42,.18);
+  --sans:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent-strong)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 16px}}
+h1,h2,h3{line-height:1.15;letter-spacing:-.015em;margin:0}
+h2{font-size:clamp(28px,3.4vw,40px);font-weight:700}
+h3{font-size:19px;font-weight:650}
+p{margin:0}
+.eyebrow{font:600 13px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lede{color:var(--ink-2);font-size:19px;max-width:62ch}
+.mono{font-family:var(--mono)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* safety banner + nav */
+.banner{background:var(--ink);color:#e2e8f0;font-size:14px;text-align:center;padding:8px 16px;position:sticky;top:0;z-index:30}
+.banner strong{color:#fff;font-weight:600}
+.banner svg{vertical-align:-3px;margin-right:6px}
+nav.top{position:sticky;top:37px;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.02em}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--accent);display:grid;place-items:center}
+.navlinks{display:flex;gap:22px;margin-left:auto}
+.navlinks a{color:var(--ink-2);text-decoration:none;font-size:15px;font-weight:500}
+.navlinks a:hover{color:var(--ink)}
+@media (max-width:900px){.navlinks{display:none}}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;font:600 16px/1 var(--sans);padding:13px 18px;text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:var(--accent-strong)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover{background:var(--bg-soft)}
+.btn-sm{padding:9px 14px;font-size:15px}
+nav.top .btn{margin-left:8px}
+@media (max-width:900px){nav.top .btn{margin-left:auto}}
+
+/* hero */
+.hero{padding:76px 0 40px}
+.hero h1{font-size:clamp(40px,5.4vw,64px);font-weight:800;letter-spacing:-.03em;max-width:15ch}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:center}
+@media (max-width:980px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+.peek{position:relative;padding:0 0 74px 0}
+.peek-card{background:#fff;border:1px solid var(--line-2);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.crop{position:relative;aspect-ratio:3.75;background:url(assets/demo-chart.jpg) 47.5% 57% / 366.7% auto no-repeat;border-bottom:1px solid var(--line)}
+.crop .box{opacity:1;transform:none}
+.peek-body{padding:16px 18px}
+.peek-body .frow .chip{margin-left:auto}
+.peek-body .reasons{margin-top:10px}
+.peek-mini{position:absolute;right:-14px;bottom:0;width:68%;background:#fff;border:1px solid var(--line-2);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px}
+@media (max-width:640px){.peek-mini{position:static;width:auto;margin-top:12px}.peek{padding:0}}
+.peek-mini .fval{font-size:15px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lede{margin-top:22px}
+.hero-cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.fact{padding:20px 22px;border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em}
+.fact span{color:var(--ink-3);font-size:15px}
+@media (max-width:760px){.fact{padding:16px}.fact b{font-size:26px}.fact span{font-size:14px;line-height:1.45;display:block;margin-top:4px}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* sections */
+section.block{padding:88px 0;border-top:1px solid var(--line)}
+section.soft{background:var(--bg-soft)}
+.head{display:grid;gap:14px;max-width:760px;margin-bottom:44px}
+
+/* demo window */
+.demo-intro{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+.window{background:#fff;border:1px solid var(--line-2);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.win-bar{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.win-bar .title{font-weight:650}
+.win-bar .meta{color:var(--ink-3);font-size:14px}
+.order-chip{margin-left:auto}
+.win-body{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);min-height:640px}
+@media (max-width:980px){.win-body{grid-template-columns:1fr}}
+.viewer{position:relative;background:var(--bg-sunk);border-right:1px solid var(--line)}
+@media (max-width:980px){.viewer{border-right:0;border-bottom:1px solid var(--line)}}
+.viewer-tools{position:absolute;top:12px;right:12px;z-index:3;display:flex;gap:6px}
+.tool{background:#fff;border:1px solid var(--line-2);border-radius:8px;font:600 14px/1 var(--sans);padding:8px 10px;cursor:pointer;color:var(--ink)}
+.tool[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.scroller{height:680px;overflow:auto;padding:18px}
+@media (max-width:980px){.scroller{height:460px}}
+.sheet{position:relative;width:100%;margin:0 auto;transition:width .35s ease}
+.sheet.zoomed{width:190%}
+.sheet img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 10px rgba(15,23,42,.15)}
+.box{position:absolute;border:2.5px solid var(--accent);border-radius:5px;background:rgba(11,110,119,.10);opacity:0;transform:scale(1.08);transition:opacity .25s,transform .25s;pointer-events:none}
+.box.on{opacity:1;transform:none}
+.box.warn{border-color:#d97706;background:rgba(217,119,6,.12)}
+.box.bad{border-color:var(--bad);background:rgba(180,35,24,.10)}
+.box.miss{border-color:var(--miss);border-style:dashed;background:rgba(71,85,105,.08)}
+.box em{position:absolute;left:-2px;top:-24px;font:600 11px/1 var(--sans);font-style:normal;color:#fff;background:inherit;padding:5px 6px;border-radius:4px;white-space:nowrap;background:var(--ink)}
+.redact-note{position:absolute;left:12px;top:12px;z-index:3;background:rgba(15,23,42,.85);color:#fff;font-size:13px;padding:6px 10px;border-radius:6px}
+
+.fields{display:flex;flex-direction:column;min-width:0}
+.fields-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap}
+.fields-head .count{font-weight:650}
+.kbd-hint{color:var(--ink-3);font-size:13px}
+kbd{font:500 12px/1 var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:2px 5px;background:#fff;color:var(--ink-2)}
+.list{flex:1;overflow:auto;max-height:600px}
+@media (max-width:980px){.list{max-height:none}}
+.field{border-bottom:1px solid var(--line);padding:14px 18px;cursor:pointer;transition:background .15s;outline:none}
+.field:hover{background:var(--bg-soft)}
+.field.sel{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.field:focus-visible{box-shadow:inset 0 0 0 3px var(--accent)}
+.frow{display:flex;align-items:center;gap:10px}
+.flabel{font-size:13px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
+.fval{font:500 17px/1.35 var(--mono);margin-top:4px;color:var(--ink);overflow-wrap:anywhere}
+.fval.withheld{color:var(--bad);font-family:var(--sans);font-weight:600;font-size:16px}
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 12.5px/1 var(--sans);padding:6px 9px;border-radius:999px;white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-verified{color:var(--ok);background:var(--ok-bg)}
+.s-needs_review{color:var(--warn);background:var(--warn-bg)}
+.s-unreadable{color:var(--bad);background:var(--bad-bg)}
+.s-missing{color:var(--miss);background:var(--miss-bg)}
+.s-resolved{color:var(--accent-strong);background:var(--accent-soft)}
+.s-blocked{color:var(--bad);background:var(--bad-bg)}
+.s-ready{color:var(--ok);background:var(--ok-bg)}
+.frow .chip{margin-left:auto}
+.conf{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--ink-3)}
+.bar{flex:0 0 120px;height:6px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;border-radius:9px}
+.detail{display:none;margin-top:12px}
+.field.sel .detail{display:block}
+.reasons{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.reasons li{font-size:15px;color:var(--ink-2);padding-left:18px;position:relative;line-height:1.45}
+.reasons li::before{content:"";position:absolute;left:3px;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--line-2)}
+.reasons b{color:var(--ink);font-weight:600}
+.cands{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cand{font:500 14px/1.2 var(--sans);padding:8px 12px;border-radius:8px;border:1px solid var(--line-2);background:#fff;cursor:pointer;color:var(--ink);text-align:left}
+.cand:hover{border-color:var(--accent);background:var(--accent-soft)}
+.cand small{display:block;color:var(--ink-3);font-size:12px;margin-top:2px}
+.cand.top{border-color:var(--accent)}
+.resolved-note{margin-top:10px;font-size:14px;color:var(--accent-strong);font-weight:500}
+.fields-foot{border-top:1px solid var(--line);padding:14px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--bg-soft)}
+.approve-why{font-size:14px;color:var(--ink-2);flex:1;min-width:180px}
+#approve:disabled{background:var(--line-2);color:var(--ink-3);cursor:not-allowed}
+.audit h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}
+.honesty{margin-top:16px;color:var(--ink-3);font-size:14px;max-width:90ch}
+
+/* agents */
+.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:a}
+@media (max-width:900px){.agents{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.agents{grid-template-columns:1fr}}
+.agent{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;position:relative}
+.agent::before{counter-increment:a;content:counter(a,decimal-leading-zero);font:500 13px/1 var(--mono);color:var(--accent);display:block;margin-bottom:14px}
+.agent p{color:var(--ink-2);font-size:15.5px;margin-top:8px}
+.agent .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{font:500 12.5px/1 var(--mono);padding:5px 8px;border-radius:6px;background:var(--bg-sunk);color:var(--ink-2)}
+
+/* safety */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr;gap:32px}}
+.statuses{display:grid;gap:12px;margin-top:28px}
+.status-row{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.status-row p{color:var(--ink-2);font-size:15.5px}
+@media (max-width:480px){.status-row{grid-template-columns:1fr;gap:6px}}
+pre.code{margin:0;background:#0f172a;color:#e2e8f0;border-radius:var(--radius);padding:22px;overflow:auto;font:400 14px/1.65 var(--mono)}
+pre.code .c{color:#94a3b8}
+pre.code .k{color:#7dd3c8}
+pre.code .s{color:#fcd34d}
+.rules{display:grid;gap:10px;margin-top:20px}
+.rule{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:var(--ink-2)}
+.rule svg{flex:0 0 20px;margin-top:3px}
+
+/* models + bench */
+table{width:100%;border-collapse:collapse;font-size:15.5px}
+th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600;background:var(--bg-soft)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tbl{border:1px solid var(--line);border-radius:var(--radius);overflow:auto;background:#fff}
+.notrun{color:var(--ink-3);font-family:var(--sans);font-style:italic}
+.bench-note{margin-top:14px;font-size:15px;color:var(--ink-2)}
+
+/* memory */
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:900px){.loop{grid-template-columns:1fr}}
+.ds{border:1px solid var(--line);border-radius:var(--radius);padding:22px;background:#fff}
+.ds .mono{font-size:14px;color:var(--accent-strong);font-weight:500}
+.ds p{color:var(--ink-2);font-size:15.5px;margin-top:10px}
+.perm{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.phi{margin-top:24px;border:1px solid var(--line-2);border-left:4px solid var(--accent);border-radius:10px;padding:18px 20px;background:#fff;color:var(--ink-2)}
+.phi b{color:var(--ink)}
+
+/* production */
+.grid-prod{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+@media (max-width:900px){.grid-prod{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.grid-prod{grid-template-columns:1fr}}
+.prod{padding:24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.prod p{color:var(--ink-2);font-size:15px;margin-top:8px}
+.prod svg{color:var(--accent);margin-bottom:12px}
+
+.cta{padding:96px 0;text-align:center}
+.cta h2{max-width:20ch;margin:0 auto}
+.cta .lede{margin:18px auto 0}
+.cta .hero-cta{justify-content:center}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--ink-3);font-size:14px}
+footer .wrap{display:flex;gap:24px;justify-content:space-between;flex-wrap:wrap}
+
+/* ---- live pipeline ---- */
+:root{--sie:#4338ca;--sie-bg:#eceefe;--cog:#a21caf;--cog-bg:#fbeafc;--reg:#475569;--reg-bg:#eef2f6}
+.run-ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.worker{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
+.worker i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(21,128,61,.5);animation:beat 2s infinite}
+.worker.busy i{background:var(--accent);box-shadow:0 0 0 0 rgba(11,110,119,.5)}
+@keyframes beat{0%{box-shadow:0 0 0 0 rgba(21,128,61,.45)}70%{box-shadow:0 0 0 7px rgba(21,128,61,0)}100%{box-shadow:0 0 0 0 rgba(21,128,61,0)}}
+.stages{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media (max-width:900px){.stages{grid-template-columns:repeat(3,1fr)}}
+.stages li{--c:var(--accent);--cbg:var(--accent-soft);--glow:rgba(11,110,119,.18);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px 14px;position:relative;overflow:hidden;transition:background .35s,border-color .35s,box-shadow .35s,transform .35s,opacity .35s}
+.stages li[data-st="1"]{--c:var(--sie);--cbg:var(--sie-bg);--glow:rgba(67,56,202,.18)}
+.stages li[data-st="4"]{--c:var(--cog);--cbg:var(--cog-bg);--glow:rgba(162,28,175,.16)}
+.stages b{display:block;font-size:15px;font-weight:650;padding-right:58px}
+.stages span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.stages span.by-sie{color:var(--sie);font-weight:600}
+.stages span.by-cog{color:var(--cog);font-weight:600}
+.stages em{position:absolute;top:13px;right:12px;font:600 11.5px/1 var(--mono);font-style:normal;color:var(--ink-3);white-space:nowrap}
+.stages li::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--c);transition:width .4s}
+.stages.running li:not(.active):not(.done){opacity:.5}
+.stages li.active{background:var(--cbg);border-color:var(--c);box-shadow:0 0 0 4px var(--glow),0 10px 24px -14px var(--c);transform:translateY(-3px)}
+.stages li.active b{color:var(--c)}
+.stages li.active em{color:var(--c)}
+.stages li.active em::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:1px;animation:pulse 1s infinite}
+.stages li.active::after{animation:grow 1.2s ease-in-out infinite alternate}
+.stages li.done{border-color:#bfe3cb}
+.stages li.done em{color:var(--ok)}
+.stages li.done::after{width:100%;background:var(--ok)}
+@keyframes grow{from{width:15%}to{width:90%}}
+@media (max-width:900px){.stages b{padding-right:0}.stages em{position:static;display:block;margin-top:6px}}
+.elapsed{margin-left:auto;font-size:13px;color:var(--ink-3)}
+.order-chip{margin-left:0}
+.scanline{position:absolute;left:0;right:0;top:0;height:3px;background:var(--accent);box-shadow:0 0 18px 6px rgba(11,110,119,.35);opacity:0;pointer-events:none}
+.sheet.scanning .scanline{opacity:1;animation:scan 1.6s linear infinite}
+@keyframes scan{from{top:0}to{top:100%}}
+.box.flash{border-color:var(--sie);background:rgba(67,56,202,.10);border-width:1.5px}
+.field.pending .fval{color:var(--ink-3);font-family:var(--sans);font-size:15px}
+.skel{display:inline-block;height:12px;width:55%;border-radius:6px;background:linear-gradient(90deg,var(--bg-sunk),#f8fafc,var(--bg-sunk));background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.s-checking{color:var(--ink-2);background:var(--bg-sunk)}
+.s-checking::before{animation:pulse 1s infinite}
+.s-pending{color:var(--ink-3);background:var(--bg-soft)}
+.mem{margin-top:10px;border:1px solid #f0c8f3;background:var(--cog-bg);border-radius:8px;padding:8px 10px;font-size:14px;color:#6b1170}
+.mem b{font-weight:650}
+.mem small{display:block;font:500 12px/1.4 var(--mono);color:var(--cog);margin-top:2px}
+.mem-pill{font:600 11.5px/1 var(--sans);color:var(--cog);background:var(--cog-bg);padding:5px 7px;border-radius:999px;margin-left:6px;white-space:nowrap}
+.field.just{animation:just 1.1s ease-out}
+@keyframes just{from{background:#fff7e0}to{background:transparent}}
+
+.console{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;margin-top:16px}
+@media (max-width:980px){.console{grid-template-columns:1fr}}
+.side{display:grid;gap:16px;align-content:start;min-width:0}
+.panel{background:#fff;border:1px solid var(--line-2);border-radius:14px;overflow:hidden;min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.panel-head h3{font-size:15.5px}
+.muted{color:var(--ink-3);font-size:13px;font-weight:400}
+.legend{display:flex;flex-wrap:wrap;gap:6px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--bg-soft)}
+.src{display:inline-flex;align-items:center;font:600 11.5px/1 var(--sans);padding:5px 7px;border-radius:5px;white-space:nowrap}
+.src-sie{color:var(--sie);background:var(--sie-bg)}
+.src-cog{color:var(--cog);background:var(--cog-bg)}
+.src-reg{color:var(--reg);background:var(--reg-bg)}
+.src-rules{color:var(--ok);background:var(--ok-bg)}
+.src-sys{color:var(--accent-strong);background:var(--accent-soft)}
+.src-ph{color:#fff;background:var(--ink)}
+.feed-panel{display:flex;flex-direction:column}
+.feed{list-style:none;margin:0;padding:6px 0;flex:1 1 0;min-height:480px;overflow:auto;font-size:14px}
+@media (max-width:980px){.feed{flex:none;height:420px;min-height:0}}
+.feed li{display:grid;grid-template-columns:56px auto 1fr auto;gap:10px;align-items:baseline;padding:7px 16px;border-left:3px solid transparent;animation:slidein .25s ease-out}
+.feed li.empty{display:block;color:var(--ink-3);border:0;padding:16px}
+.feed .t{font:400 12px/1 var(--mono);color:var(--ink-3)}
+.feed .m{color:var(--ink-2);line-height:1.45;min-width:0}
+.feed .m b{color:var(--ink);font-weight:600}
+.feed .ms{font:500 12px/1 var(--mono);color:var(--ink-3);white-space:nowrap}
+.feed li.flag{border-left-color:#d97706;background:#fffaf0}
+.feed li.block{border-left-color:var(--bad);background:var(--bad-bg)}
+.feed li.block .m{color:var(--bad)}
+.feed li.ok .m::after{content:" ✓";color:var(--ok);font-weight:700}
+@keyframes slidein{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (max-width:560px){.feed li{grid-template-columns:auto 1fr;gap:4px 8px}.feed .t{grid-row:1}.feed .m{grid-column:1/-1}.feed .ms{grid-row:1;justify-self:end}}
+.checks{list-style:none;margin:0;padding:6px 0}
+.checks li{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:8px 16px;font-size:14px;align-items:start}
+.checks .ic{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font:700 11px/1 var(--sans);margin-top:1px}
+.checks .ic.pending{border:1.5px dashed var(--line-2)}
+.checks .ic.pass{background:var(--ok-bg);color:var(--ok)}
+.checks .ic.fail{background:var(--warn-bg);color:var(--warn)}
+.checks .ic.paused{background:var(--miss-bg);color:var(--miss)}
+.checks .ic.enforced{background:var(--ok);color:#fff}
+.checks .n{font-weight:600;color:var(--ink)}
+.checks .d{display:block;color:var(--ink-3);font-size:13px;line-height:1.4;margin-top:1px}
+.mon{padding:14px 16px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:1px solid var(--line);border-radius:10px;padding:10px}
+.tile b{display:block;font:600 20px/1.1 var(--mono);color:var(--ink)}
+.tile span{display:block;font-size:12px;color:var(--ink-3);margin-top:4px;line-height:1.3}
+.tile.good{background:var(--ok-bg);border-color:#bfe3cb}
+.tile.good b{color:var(--ok)}
+.lat{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px}
+.lat li{display:grid;grid-template-columns:130px 1fr 58px;gap:10px;align-items:center;font-size:13px}
+.lat .nm{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lat .nm.sie{color:var(--sie);font-weight:600}
+.lat .nm.cog{color:var(--cog);font-weight:600}
+.lat .bar{flex:none;width:auto;height:6px}
+.lat .v{font:500 12px/1 var(--mono);color:var(--ink-3);text-align:right}
+.phi-line{margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+.phi-line b{color:var(--ok)}
+.audit-panel{grid-column:1/-1}
+.intake{display:flex;gap:12px;align-items:stretch;margin-bottom:16px;flex-wrap:wrap}
+.dropzone{flex:1;min-width:260px;display:flex;align-items:center;gap:14px;padding:14px 18px;border:2px dashed var(--line-2);border-radius:12px;background:#fff;cursor:pointer;color:var(--accent-strong);transition:border-color .2s,background .2s}
+.dropzone:hover,.dropzone.drag{border-color:var(--accent);background:var(--accent-soft)}
+.dropzone b{display:block;color:var(--ink);font-weight:600}
+.dropzone small{display:block;color:var(--ink-3);font-size:13px}
+.badges{display:flex;flex-direction:column;gap:6px;justify-content:center}
+.mode-badge,.mem-badge{font:600 12.5px/1 var(--sans);padding:8px 11px;border-radius:999px;background:var(--bg-sunk);color:var(--ink-2);white-space:nowrap}
+.mode-badge.on{background:var(--sie-bg);color:var(--sie)}
+.mode-badge.on::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sie);margin-right:7px;animation:pulse 1.4s infinite}
+.mem-badge{background:var(--cog-bg);color:var(--cog)}
+.group-h{position:sticky;top:0;z-index:1;background:var(--bg-soft);border-bottom:1px solid var(--line);padding:8px 18px;font:600 12.5px/1.3 var(--sans);color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em}
+.ocr{margin-top:8px;font:400 12.5px/1.45 var(--mono);color:var(--ink-2);background:var(--bg-soft);border-radius:6px;padding:6px 8px;overflow-wrap:anywhere}
+.ocr b{color:var(--sie);font-weight:600;margin-right:6px}
+.live-empty{padding:28px 18px;color:var(--ink-3)}
+.noloc{margin-top:8px;font-size:13px;color:var(--ink-3)}
+.replay{font:600 10.5px/1 var(--sans);color:var(--ink-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;margin-left:4px;text-transform:uppercase}
+.src-mem{color:#6b21a8;background:#f3e8ff}
+.exports{display:flex;gap:6px;flex-wrap:wrap}
+.audit-panel .audit{list-style:none;margin:0;padding:6px 0;max-height:260px;overflow:auto;font:400 13px/1.5 var(--mono);color:var(--ink-2)}
+.audit-panel .audit li{display:grid;grid-template-columns:80px 170px 1fr;gap:12px;padding:5px 16px;border-bottom:1px dashed var(--line)}
+.audit-panel .audit li.empty{display:block;font-family:var(--sans);color:var(--ink-3);border:0;padding:14px 16px}
+.audit-panel .audit .who{color:var(--accent-strong)}
+.audit-panel .audit .who.ph{color:var(--ink);font-weight:600}
+@media (max-width:640px){.audit-panel .audit li{grid-template-columns:1fr;gap:0}}
+
+@keyframes pulse{50%{opacity:.3}}
+</style>
+</head>
+<body>
+
+<div class="banner" role="note">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 10v5M12 18h.01"/></svg>
+  Decision support only. A licensed pharmacist must review every order. Demo uses synthetic data.
+</div>
+
+<nav class="top" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="PillSpark home">
+      <span class="brand-mark"><svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 22.5 18.5 9a5 5 0 0 1 7 7L12 29.5a5 5 0 0 1-7-7Z" transform="translate(0 -3)" fill="none" stroke="#fff" stroke-width="3"/><path d="m12 13 7 7" transform="translate(0 -3)" stroke="#fff" stroke-width="3"/></svg></span>
+      PillSpark
+    </a>
+    <div class="navlinks">
+      <a href="#demo">Live review</a>
+      <a href="#how">How it works</a>
+      <a href="#safety">Safety</a>
+      <a href="#models">Open models</a>
+      <a href="#memory">Memory</a>
+      <a href="#production">Production</a>
+    </div>
+    <a class="btn btn-primary btn-sm" href="/login">Sign in</a>
+  </div>
+</nav>
+
+<main id="top">
+<header class="hero">
+  <div class="wrap hero-grid">
+   <div>
+    <p class="eyebrow">Prescription intake for pharmacies</p>
+    <h1 style="margin-top:16px">Read the fax. Flag the doubt. <em>Never guess.</em></h1>
+    <p class="lede">PillSpark turns faxed and handwritten prescriptions into structured pharmacy orders, using open models only. Every field it isn't sure of goes to a pharmacist with the reason, the candidates, and the exact spot on the page it came from.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#demo">See it read a real chart
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+      <a class="btn btn-ghost" href="/upload">Upload a fax</a>
+    </div>
+   </div>
+   <div class="peek" aria-hidden="true">
+    <div class="peek-card">
+      <div class="crop"><div class="box warn" style="left:66%;top:24%;width:25%;height:56%"><em style="top:auto;bottom:-24px">8 over 9</em></div></div>
+      <div class="peek-body">
+        <div class="frow"><span class="flabel">Daunorubicin dose · day 2</span><span class="chip s-needs_review">Needs review</span></div>
+        <div class="fval">80 mg or 90 mg?</div>
+        <ul class="reasons"><li><b>Readers disagree:</b> LightOnOCR reads 80 mg, GLM-OCR reads 90 mg.</li></ul>
+        <div class="cands"><span class="cand top">80 mg<small>matches day 3</small></span><span class="cand">90 mg<small>matches day 1</small></span></div>
+      </div>
+    </div>
+    <div class="peek-mini">
+      <div class="frow"><span class="flabel">Prescriber</span><span class="chip s-unreadable">Unreadable</span></div>
+      <div class="fval withheld">Value withheld, no NPI on chart</div>
+    </div>
+   </div>
+  </div>
+  <div class="wrap">
+    <div class="facts">
+      <div class="fact"><b>0</b><span>guesses allowed. Enforced in code and tested.</span></div>
+      <div class="fact"><b>4</b><span>field states: verified, needs review, unreadable, missing</span></div>
+      <div class="fact"><b>6</b><span>agents, from image check to FHIR order</span></div>
+      <div class="fact"><b>Open</b><span>models only, served on Superlinked SIE</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ DEMO ============ -->
+<section class="block soft" id="demo" aria-labelledby="demo-h">
+  <div class="wrap">
+    <div class="demo-intro">
+      <div class="head" style="margin:0">
+        <p class="eyebrow">Live pipeline</p>
+        <h2 id="demo-h">Watch six agents work through a real chemo chart</h2>
+        <p class="lede">Watch every model call on Superlinked SIE, every cognee memory read and write, each safety check and audit entry, step by step. The order stays blocked until a pharmacist resolves every flag.</p>
+      </div>
+      <div class="run-ctl">
+        <span class="worker" id="worker" title="Background job worker"><i></i><span id="workerText">Worker online</span></span>
+        <button class="btn btn-primary btn-sm" id="run" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+          <span id="runLabel">Process fax</span></button>
+        <button class="btn btn-ghost btn-sm" id="skip" type="button">Skip to result</button>
+      </div>
+    </div>
+
+    <div class="intake" id="intake" hidden>
+      <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload a prescription or chart image">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
+        <span><b>Drop a prescription, fax or chart image</b><small>JPEG, PNG or WebP, up to 15 MB. Or click to choose a file.</small></span>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden>
+      </div>
+      <div class="badges"><span class="mode-badge" id="modeBadge">Live</span><span class="mem-badge" id="memBadge">Memory</span></div>
+    </div>
+
+    <ol class="stages" id="stages" aria-label="Agent pipeline">
+      <li data-st="0"><b>Intake</b><span>image check</span><em></em></li>
+      <li data-st="1"><b>Extraction</b><span class="by-sie">Superlinked SIE</span><em></em></li>
+      <li data-st="2"><b>Consensus</b><span>per-field vote</span><em></em></li>
+      <li data-st="3"><b>Verification</b><span>RxNorm · NPPES · rules</span><em></em></li>
+      <li data-st="4"><b>Triage</b><span class="by-cog">cognee memory</span><em></em></li>
+      <li data-st="5"><b>Order</b><span>JSON · audit</span><em></em></li>
+    </ol>
+
+    <div class="window">
+      <div class="win-bar">
+        <span class="title" id="orderTitle">Order PS-0142</span>
+        <span class="meta" id="orderMeta">Chemotherapy chart · Oncology unit · 7+3 induction</span>
+        <span class="elapsed mono" id="elapsed">00:00.0</span>
+        <span class="chip s-missing order-chip" id="orderChip">Queued</span>
+      </div>
+      <div class="win-body">
+        <div class="viewer">
+          <div class="viewer-tools">
+            <button class="tool" id="zoomBtn" type="button" aria-pressed="false">Zoom</button>
+          </div>
+          <div class="scroller" id="scroller" tabindex="0" aria-label="Fax image">
+            <div class="sheet" id="sheet">
+              <img src="assets/demo-chart.jpg" width="1100" height="1466" alt="Handwritten chemotherapy chart listing daunorubicin and cytarabine doses over four days. Patient name and registration number are blacked out.">
+              <div class="scanline" aria-hidden="true"></div>
+            </div>
+          </div>
+          <span class="redact-note">Patient identifiers redacted</span>
+        </div>
+
+        <div class="fields">
+          <div class="fields-head">
+            <span class="count" id="flagCount">Fields</span>
+            <span class="kbd-hint"><kbd>J</kbd> <kbd>K</kbd> next/previous flag · <kbd>Enter</kbd> accept top candidate</span>
+          </div>
+          <div class="list" id="list" role="listbox" aria-label="Extracted fields"></div>
+          <div class="fields-foot">
+            <span class="approve-why" id="approveWhy"></span>
+            <button class="btn btn-primary btn-sm" id="approve" type="button" disabled>Approve order</button>
+            <button class="btn btn-ghost btn-sm" id="reset" type="button">Reset</button>
+            <span class="exports" id="exports"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="console">
+      <div class="panel feed-panel">
+        <div class="panel-head">
+          <h3>Agent activity</h3>
+          <span class="muted" id="feedCount">0 events</span>
+        </div>
+        <div class="legend" aria-label="Event sources">
+          <span class="src src-sie">Superlinked SIE</span><span class="src src-cog">cognee</span><span class="src src-reg">Registry</span><span class="src src-rules">Rules</span><span class="src src-sys">Agent</span><span class="src src-ph">Pharmacist</span>
+        </div>
+        <ol class="feed" id="feed" aria-live="polite"><li class="empty">Press <b>Process fax</b> to stream the pipeline.</li></ol>
+      </div>
+      <div class="side">
+        <div class="panel">
+          <div class="panel-head"><h3>Safety checks</h3><span class="chip s-missing" id="checksBadge">Waiting</span></div>
+          <ul class="checks" id="checks"></ul>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Monitoring</h3><span class="muted" id="beat">heartbeat —</span></div>
+          <div class="mon">
+            <div class="tiles">
+              <div class="tile"><b id="mSie">0</b><span id="mSieSub">SIE model calls</span></div>
+              <div class="tile"><b id="mCog">0 / 0</b><span id="mCogSub">cognee reads / writes</span></div>
+              <div class="tile"><b id="mReg">0</b><span>registry lookups</span></div>
+              <div class="tile"><b id="mFlags">0</b><span>flags raised</span></div>
+              <div class="tile good"><b id="mGuess">0</b><span>guesses, blocked at set_status()</span></div>
+              <div class="tile"><b id="mAudit">0</b><span>audit events</span></div>
+            </div>
+            <ul class="lat" id="lat" aria-label="Latency per model call"></ul>
+            <p class="phi-line">Image bytes in logs: <b>0</b> · PHI in memory writes: <b>0</b> · frontier-model calls: <b>0</b></p>
+          </div>
+        </div>
+      </div>
+      <div class="panel audit-panel">
+        <div class="panel-head"><h3>Audit trail <span class="muted">append-only</span></h3><span class="muted" id="auditCount">0 events</span></div>
+        <ol class="audit" id="audit"><li class="empty">Every status change, resolution, approval and export is recorded here with actor, time, before and after.</li></ol>
+      </div>
+    </div>
+    <p class="honesty" id="honesty"><b>About this demo:</b> it replays the pipeline from a script, on a real chart photo with the patient identifiers removed from the image itself. That photo is the one exception to the synthetic data used everywhere else. The readings, timings, memory hits and flags were written by hand to show how a run looks. They are not live model output. Each event has the same shape the backend will stream to the review screen. Real numbers come from the benchmark below.</p>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="block" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-h">Six agents, each with one job</h2>
+      <p class="lede">Several independent readers vote on each field. Deterministic checks decide what counts as verified, and everything else goes to the pharmacist.</p>
+    </div>
+    <div class="agents">
+      <div class="agent"><h3>Intake</h3><p>Checks image quality: blur, skew, resolution, missing pages. A bad scan is flagged at the door, before anything is read.</p><div class="tags"><span class="tag">images</span><span class="tag">multi-page PDF</span><span class="tag">fax webhook</span></div></div>
+      <div class="agent"><h3>Extraction</h3><p>Two separate OCR models read the page with layout boxes. GLiNER2 tags the order fields, and an open Qwen chat model fills a strict JSON schema.</p><div class="tags"><span class="tag">LightOnOCR</span><span class="tag">GLM-OCR</span><span class="tag">GLiNER2</span><span class="tag">Qwen</span></div></div>
+      <div class="agent"><h3>Consensus</h3><p>Votes field by field across the model passes. When readers disagree, the disagreement becomes a reason a pharmacist can see. It is never settled by silently picking one.</p><div class="tags"><span class="tag">per-field voting</span></div></div>
+      <div class="agent"><h3>Verification</h3><p>Looks up drugs in RxNorm and ranks the matches with Qwen3-Reranker. Checks the prescriber in NPPES and runs NPI/DEA checksums, the sig parser, LASA (look-alike/sound-alike) drug rules and dose ranges.</p><div class="tags"><span class="tag">RxNorm</span><span class="tag">NPPES</span><span class="tag">Luhn / DEA</span><span class="tag">ISMP</span></div></div>
+      <div class="agent"><h3>Triage</h3><p>Turns confidence and flags into a queue status: Blocked, Needs review, or Ready to approve. The pharmacist always sees the worst problem first.</p><div class="tags"><span class="tag">queue</span><span class="tag">pharmacy memory</span></div></div>
+      <div class="agent"><h3>Order</h3><p>Once a pharmacist approves, the order exports as JSON, CSV, or an HL7 FHIR R4 <span class="mono">MedicationRequest</span>, with a full trace of how each field was read.</p><div class="tags"><span class="tag">FHIR R4</span><span class="tag">audit trail</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SAFETY ============ -->
+<section class="block soft" id="safety" aria-labelledby="safety-h">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">The safety invariant</p>
+      <h2 id="safety-h" style="margin-top:14px">Models can only add doubt. They can never take it away.</h2>
+      <p class="lede" style="margin-top:18px">New models and pharmacy memory can only add candidates, add reasons, rank options or raise flags. Only deterministic checks backed by agreement between readers, or a pharmacist, can mark a field verified.</p>
+      <div class="statuses">
+        <div class="status-row"><span><span class="chip s-verified">Verified</span></span><p>Independent readers agree <b>and</b> every deterministic check passes.</p></div>
+        <div class="status-row"><span><span class="chip s-needs_review">Needs review</span></span><p>The value is plausible but something is uncertain. Candidates and reasons are attached.</p></div>
+        <div class="status-row"><span><span class="chip s-unreadable">Unreadable</span></span><p>The value is withheld. PillSpark won't show its best guess, because a pharmacist might anchor on it.</p></div>
+        <div class="status-row"><span><span class="chip s-missing">Missing</span></span><p>The prescription doesn't contain it. Checks that depend on it are paused, not skipped.</p></div>
+      </div>
+    </div>
+    <div>
+<pre class="code" aria-label="Safety choke point, simplified"><span class="c"># One choke point for every status change (simplified)</span>
+<span class="k">def</span> set_status(field, status, source):
+    <span class="k">if</span> status == <span class="s">"verified"</span> <span class="k">and</span> source <span class="k">not in</span> TRUSTED:
+        <span class="k">raise</span> UnsafeVerification(
+            <span class="s">f"{source} may add doubt, never verify"</span>)
+    audit.append(field, status, source)
+    field.status = status
+
+TRUSTED = {<span class="s">"deterministic_checks"</span>, <span class="s">"pharmacist"</span>}
+<span class="c"># not trusted: "sie_model", "memory", "reranker"</span></pre>
+      <div class="rules">
+        <div class="rule"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--ok)" stroke-width="2.5" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>Blocks on illegible tokens, LASA drugs with readings that disagree, doses outside the expected range, and ISMP error-prone abbreviations such as <span class="mono">q.d.</span></span></div>
+        <div class="rule"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--ok)" stroke-width="2.5" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>Blocks when an NPI or DEA checksum fails or the prescriber can't be found in NPPES.</span></div>
+        <div class="rule"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--ok)" stroke-width="2.5" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>If SIE goes down, every field falls back to "needs review". PillSpark never falls back to guessing.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODELS ============ -->
+<section class="block" id="models" aria-labelledby="models-h">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Open models on Superlinked SIE</p>
+      <h2 id="models-h">Everyday jobs moved off frontier models</h2>
+      <p class="lede">Each job runs on an open model served by Superlinked SIE. Every model is named on one line of <span class="mono">models.yaml</span>, so swapping one is a one-line change. To keep real PHI off third-party servers, point <span class="mono">SIE_BASE_URL</span> at a self-hosted SIE.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Job</th><th>Model</th><th>What it may do</th></tr></thead>
+        <tbody>
+          <tr><td>Read the page, with layout boxes</td><td class="mono">LightOnOCR</td><td>Vote on text and supply the highlight boxes</td></tr>
+          <tr><td>Second independent reading</td><td class="mono">GLM-OCR</td><td>Vote; any disagreement becomes a reason</td></tr>
+          <tr><td>Tag the order fields</td><td class="mono">GLiNER2</td><td>Propose spans for patient, drug, strength, sig and the rest</td></tr>
+          <tr><td>Structured parse to a strict JSON schema</td><td class="mono">Qwen (chat)</td><td>Vote on structured values</td></tr>
+          <tr><td>Rank RxNorm drug candidates</td><td class="mono">Qwen3-Reranker</td><td>Order candidates only. LASA and dose checks still apply</td></tr>
+          <tr><td>Strip PHI before anything is written to memory</td><td class="mono">pii-redact</td><td>Remove identifiers, alongside a structural strip of patient fields</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:48px 0 16px">Benchmark: quality against cost</h3>
+    <div class="tbl">
+      <table id="bench">
+        <thead><tr><th>Backend</th><th class="num">Verified precision</th><th class="num">Flag recall</th><th class="num">Guesses</th><th class="num">Auto-verified</th><th class="num">Median latency</th><th class="num">Cost / 1,000 faxes</th></tr></thead>
+        <tbody id="benchBody"></tbody>
+      </table>
+    </div>
+    <p class="bench-note" id="benchNote">The table fills in from <span class="mono">bench/results.json</span> after a benchmark run. A backend that hasn't been run shows "not run". Numbers are never made up.</p>
+  </div>
+</section>
+
+<!-- ============ MEMORY ============ -->
+<section class="block soft" id="memory" aria-labelledby="memory-h">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Pharmacy memory with cognee</p>
+      <h2 id="memory-h">Agents learn from every pharmacist fix</h2>
+      <p class="lede">When a pharmacist resolves a flag, the correction goes into shared memory. The next time a fax arrives from that prescriber, memory can add a "Seen before" candidate that links to the original correction. Memory can never verify a field.</p>
+    </div>
+    <div class="loop">
+      <div class="ds"><span class="mono">pharmacist_corrections</span><p>The field, each model's raw reading, the final value, the reason, the prescriber's NPI and a timestamp.</p><div class="perm"><span class="tag">write: pharmacist</span><span class="tag">read: all agents</span></div></div>
+      <div class="ds"><span class="mono">prescriber_patterns</span><p>Patterns at the prescriber level, such as "this prescriber's handwritten g often reads as q" or "usually prescribes metformin 500 mg tablets".</p><div class="perm"><span class="tag">write: verification-agent</span><span class="tag">read: all</span></div></div>
+      <div class="ds"><span class="mono">agent_notes</span><p>Each agent's own failure notes, for example "OCR pass 2 misreads strengths that have a trailing zero".</p><div class="perm"><span class="tag">write: each agent</span><span class="tag">read: all</span></div></div>
+    </div>
+    <div class="phi"><b>No patient identifiers ever reach memory.</b> Before any write, text goes through SIE's PII redaction model and patient fields are stripped structurally. Memory is keyed on prescriber, drug and field patterns only. When a pharmacist accepts or rejects a suggestion, that feedback goes back to cognee, so useful patterns get stronger and wrong ones fade.</div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTION ============ -->
+<section class="block" id="production" aria-labelledby="prod-h">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Built to use on Monday</p>
+      <h2 id="prod-h">The parts a pharmacy needs, not just a model</h2>
+    </div>
+    <div class="grid-prod">
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><h3>Roles &amp; sign-in</h3><p>Pharmacist, technician and admin roles. Only a pharmacist can resolve a flag or approve an order.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg><h3>Live queue</h3><p>Status chips, flag counts, the age of each order, filters and search. New faxes show up without a refresh.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg><h3>Append-only audit</h3><p>Every field change, resolution, approval and export is recorded with the user, the time, and the value before and after.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><h3>FHIR export</h3><p>Approved orders export as JSON, as CSV, or as an HL7 FHIR R4 MedicationRequest that is validated against the R4 shape.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v12H5l-1 4V4Z"/></svg><h3>Fax webhook</h3><p>Accepts drag-and-drop uploads, multi-page PDFs, and a signed webhook a fax provider can call. Every intake carries an idempotency key.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><h3>Background jobs</h3><p>A worker processes each order. Calls to SIE and the drug and prescriber registries retry with backoff and time out, and a stuck order shows as failed.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/></svg><h3>PHI-safe logs</h3><p>Structured logs pass through a PHI scrubber and carry request IDs. No image bytes in traces, and no PHI in error messages.</p></div>
+      <div class="prod"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9H7Z"/></svg><h3>One-click deploy</h3><p>A Docker image plus a Render Blueprint with Postgres, a persistent disk, and the <span class="mono">/healthz</span> and <span class="mono">/readyz</span> health checks.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Give your pharmacists the doubt, not a guess</h2>
+    <p class="lede">Try a synthetic fax, or upload your own to a self-hosted instance.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="/upload?sample=1">Try a sample fax</a>
+      <a class="btn btn-ghost" href="/login">Sign in</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b style="color:var(--ink)">PillSpark</b> · Decision support only. A licensed pharmacist must review every order.</span>
+    <span>Built for LOCALHOST NYC · open models on Superlinked SIE · memory by cognee</span>
+  </div>
+</footer>
+
+<script>
+
+(() => {
+  // ---------------------------------------------------------------------------
+  // Fields on the demo chart. Box coordinates are % of the image: [x, y, w, h, label]
+  // ---------------------------------------------------------------------------
+  const FIELDS = [
+    { id: "regimen", label: "Regimen", value: "3+7 protocol (7+3 induction)", status: "verified", conf: 0.94,
+      boxes: [[29.5, 23.4, 16.6, 2.5, "both OCR readers"]],
+      reasons: ["<b>Both OCR readers agree</b> on the handwritten text.", "Matches a known AML (acute myeloid leukemia) induction regimen."] },
+    { id: "drug1", label: "Drug 1", value: "DAUNOrubicin", status: "verified", conf: 0.93,
+      boxes: [[28, 40.2, 33.2, 2.8, "day 1"], [39.1, 55.4, 20, 2.8, "day 2"], [34.5, 68.4, 16.8, 3.1, "day 3"]],
+      reasons: ["<b>All four model passes agree</b> on day 1, where it is printed in capitals. Days 2 and 3 abbreviate it as \"Dauno\".", "Exact RxNorm match.", "LASA family: DOXOrubicin, IDArubicin. The readings agree, so no LASA flag is raised. Shown in tall-man lettering."] },
+    { id: "dose1", label: "Daunorubicin dose · day 2", value: "80 mg or 90 mg?", status: "needs_review", conf: 0.41,
+      boxes: [[52.7, 55.4, 6.6, 2.8, "8 over 9"], [61.5, 40.2, 6, 2.8, "day 1: 90 mg"], [64.1, 68.2, 5.6, 2.6, "day 3: 80 mg"]],
+      reasons: ["<b>Overwritten digit:</b> an 8 appears to be written over a 9 on day 2.", "<b>Readers disagree:</b> LightOnOCR reads 80 mg, GLM-OCR reads 90 mg.", "Day 1 reads 90 mg and day 3 reads 80 mg, so the dose may have been reduced on purpose."],
+      memory: { text: "<b>Agent note:</b> OCR pass 2 misreads overwritten digits in dose columns.", src: "cognee · agent_notes · written by extraction-agent" },
+      cands: [["80 mg", "matches day 3"], ["90 mg", "matches day 1"]] },
+    { id: "bsa", label: "Body surface area", value: "—", status: "missing", conf: 0,
+      boxes: [[70.5, 21, 14.5, 2, "blank"]],
+      reasons: ["<b>Left blank on the chart.</b>", "The dose-range check (daunorubicin 60 to 90 mg/m² a day in 7+3 induction) <b>can't run</b> without it. The check is paused, not skipped."],
+      cands: [["Requested height & weight", "from the oncology unit"]] },
+    { id: "drug2", label: "Drug 2", value: "Cytarabine", status: "needs_review", conf: 0.68,
+      boxes: [[28, 47.9, 14, 2.7, "\"Cytorar\""], [36.2, 61.3, 13.2, 2.8, "\"Cytosare\""], [30.5, 74.2, 11.8, 3.1, "\"Cytosard\""], [27.1, 81.3, 11.4, 2.8, "\"Cytorar\""]],
+      reasons: ["<b>Handwritten four different ways</b> across the four days.", "Qwen3-Reranker on SIE ranked the RxNorm candidates against the OCR text. The top match is cytarabine, sold as Cytosar-U.", "The reranker only puts candidates in order. A pharmacist confirms the drug."],
+      memory: { text: "<b>Seen before:</b> \"Cytosar\" was resolved to cytarabine by a pharmacist.", src: "cognee · pharmacist_corrections · correction c-0193" },
+      cands: [["Cytarabine", "Cytosar-U · top ranked"]] },
+    { id: "sig", label: "Directions (sig) · cytarabine", value: "150 mg in 1 L NS IV over 24 h", status: "needs_review", conf: 0.55,
+      boxes: [[28, 51.3, 33.2, 2.7, "day 1: 24 h"], [26.8, 84.4, 31.4, 2.9, "day 4: 22 h"]],
+      reasons: ["<b>Infusion time differs:</b> \"over 24 hours\" on days 1 and 2, \"over 22 hours\" on day 4.", "NS means normal saline, and IV means intravenous."],
+      cands: [["over 24 hours", "days 1–2"], ["over 22 hours", "day 4"]] },
+    { id: "prescriber", label: "Prescriber", value: "Value withheld", status: "unreadable", conf: 0.12,
+      boxes: [[76.4, 43.7, 10.9, 4.2, "signature"], [78.6, 59.3, 12.3, 5.5, "signature"], [11.6, 90.6, 38, 2.1, "printed name: blank"]],
+      reasons: ["<b>Signatures only.</b> The \"Doctor's Name\" line is blank.", "There is no NPI (National Provider Identifier) or DEA number on the chart, so the NPPES registry check can't run."],
+      cands: [["Confirmed by phone", "with the ordering oncologist"]] },
+    { id: "date", label: "Date written", value: "01/09/24", status: "needs_review", conf: 0.6,
+      boxes: [[13.6, 40.6, 7.7, 2.4, "smudged"], [11.4, 68.4, 7.3, 2.6, "row: 3/9/24"], [82.9, 73.1, 9.5, 2.9, "signed 3/7/24"]],
+      reasons: ["<b>The first digits are smudged.</b> The rows that follow (2/9, 3/9, 4/9) suggest 1/9/24. That inference adds a candidate but can't verify the date.", "<b>Conflicting dates:</b> the day 3 signature is dated 3/7/24, but the row is dated 3/9/24."],
+      cands: [["01/09/24", "fits the row sequence"]] },
+  ];
+  const CHECKS = [
+    ["quality", "Image quality"], ["rxnorm", "RxNorm drug match"], ["lasa", "LASA (look-alike/sound-alike) drugs"],
+    ["dose", "Dose range"], ["sig", "Directions (sig) parser"], ["npi", "NPI / DEA checksum"],
+    ["nppes", "NPPES prescriber lookup"], ["ismp", "ISMP error-prone abbreviations"], ["invariant", "Safety invariant: nothing verifies itself"],
+  ];
+
+  // ---------------------------------------------------------------------------
+  // The scripted run. Each event has the shape the backend will stream:
+  // { t, stage, src: sie|cognee|registry|rules|agent, who, model?, ms?, level?, msg, ...effects }
+  // ---------------------------------------------------------------------------
+  const RUN = [
+    { t: 0, stage: 0, src: "agent", who: "intake-agent", msg: "Fax received: 1 page, JPEG 1100×1466. Idempotency key checked, no duplicate.", audit: ["intake-agent", "order PS-0142 created · status: queued → processing"], order: ["s-checking", "Processing"] },
+    { t: 450, stage: 0, src: "rules", who: "intake-agent", level: "ok", msg: "Image quality passed: page fully in frame, contrast readable, slight skew corrected.", check: ["quality", "pass", "Readable, slight skew corrected"] },
+    { t: 650, stage: 0, src: "agent", who: "logger", msg: "Image bytes replaced with a placeholder in logs and traces." },
+    { t: 800, stage: 1, src: "sie", who: "extraction-agent", msg: "Sent page to <b>LightOnOCR</b> and <b>GLM-OCR</b> in parallel as two independent readers.", scan: true },
+    { t: 2640, stage: 1, src: "sie", model: "LightOnOCR", ms: 1840, level: "ok", msg: "<b>LightOnOCR</b> read 41 text lines with layout boxes.", flash: true },
+    { t: 2930, stage: 1, src: "sie", model: "GLM-OCR", ms: 2130, level: "ok", msg: "<b>GLM-OCR</b> read 39 text lines (second, independent reader).", scan: false },
+    { t: 3350, stage: 1, src: "sie", model: "GLiNER2", ms: 410, level: "ok", msg: "<b>GLiNER2</b> tagged order-field spans: 2 drugs, 4 doses, 2 directions, 3 dates, 3 signatures." },
+    { t: 4300, stage: 1, src: "sie", model: "Qwen (chat)", ms: 1360, level: "ok", msg: "<b>Qwen</b> filled the strict JSON order schema from the OCR text plus the image." },
+    { t: 4600, stage: 2, src: "agent", who: "consensus-agent", msg: "Voting field by field across 4 model passes.", reveal: true },
+    { t: 5400, stage: 2, src: "agent", who: "consensus-agent", level: "flag", msg: "Day-2 daunorubicin dose: LightOnOCR reads <b>80 mg</b>, GLM-OCR reads <b>90 mg</b>. Both kept as candidates, none picked.", field: "dose1" },
+    { t: 5900, stage: 3, src: "registry", model: "RxNorm", ms: 310, who: "verification-agent", level: "ok", msg: "RxNorm approximateTerm \"DAUNORUBICIN\" → exact ingredient match.", check: ["rxnorm", "pass", "Daunorubicin exact; cytarabine ranked"] },
+    { t: 6200, stage: 3, src: "rules", who: "verification-agent", level: "ok", msg: "LASA check: DAUNOrubicin vs DOXOrubicin, IDArubicin. All readings agree, no flag.", check: ["lasa", "pass", "Readings agree across passes"], field: "drug1" },
+    { t: 6550, stage: 3, src: "registry", model: "RxNorm", ms: 280, who: "verification-agent", msg: "RxNorm approximateTerm \"Cytosar\" → 5 candidates." },
+    { t: 6800, stage: 3, src: "sie", model: "Qwen3-Reranker", ms: 190, who: "verification-agent", level: "flag", msg: "<b>Qwen3-Reranker</b> ranked 5 RxNorm candidates against the OCR text: <b>cytarabine</b> first. Ranking only, so it still needs review.", field: "drug2" },
+    { t: 7150, stage: 3, src: "rules", who: "verification-agent", level: "flag", msg: "Dose range paused: body surface area is blank, so mg/m² can't be computed.", check: ["dose", "paused", "Needs body surface area"], field: "bsa" },
+    { t: 7450, stage: 3, src: "rules", who: "verification-agent", level: "flag", msg: "Directions conflict: infusion over 24 h (days 1–2) vs 22 h (day 4).", check: ["sig", "fail", "24 h vs 22 h"], field: "sig" },
+    { t: 7750, stage: 3, src: "rules", who: "verification-agent", level: "flag", msg: "No NPI or DEA number on the chart. Checksums can't run.", check: ["npi", "fail", "No identifier on chart"] },
+    { t: 7950, stage: 3, src: "registry", model: "NPPES", ms: 0, who: "verification-agent", level: "flag", msg: "NPPES lookup skipped: no identifier to query. Prescriber value withheld.", check: ["nppes", "fail", "Skipped, nothing to look up"], field: "prescriber" },
+    { t: 8200, stage: 3, src: "rules", who: "verification-agent", level: "ok", msg: "ISMP scan: no error-prone abbreviations (q.d., U, µg …) found.", check: ["ismp", "pass", "None found"], field: "regimen" },
+    { t: 8450, stage: 3, src: "rules", who: "verification-agent", level: "flag", msg: "Date smudged; row order suggests 1/9/24. Day-3 signature dated 3/7/24 conflicts.", field: "date" },
+    { t: 8800, stage: 4, src: "cognee", model: "recall", ms: 140, op: "read", who: "triage-agent", msg: "Recall from <b>pharmacist_corrections</b>, <b>prescriber_patterns</b>, <b>agent_notes</b> for cytarabine, daunorubicin and the dose column." },
+    { t: 9200, stage: 4, src: "cognee", op: "read", who: "triage-agent", level: "flag", msg: "<b>Seen before:</b> \"Cytosar\" was resolved to cytarabine (correction c-0193). Added as a reason and a ranked candidate.", memory: "drug2" },
+    { t: 9550, stage: 4, src: "cognee", op: "read", who: "triage-agent", level: "flag", msg: "<b>Agent note:</b> OCR pass 2 misreads overwritten digits in dose columns. Day-2 dose stays flagged.", memory: "dose1" },
+    { t: 9950, stage: 4, src: "agent", who: "set_status()", level: "block", msg: "REJECTED: memory proposed <b>verified</b> for Drug 2. Memory may add doubt, never verify.", check: ["invariant", "enforced", "1 attempt blocked at set_status()"], audit: ["set_status()", "drug2: rejected 'verified' from source=memory"] },
+    { t: 10400, stage: 4, src: "agent", who: "triage-agent", level: "flag", msg: "6 flags open, 2 verified. Order status: <b>Blocked</b>. Worst first: prescriber unreadable.", order: ["s-blocked", "Blocked"], audit: ["triage-agent", "order PS-0142 status: processing → blocked (6 flags)"] },
+    { t: 10800, stage: 5, src: "agent", who: "order-agent", level: "ok", msg: "Order JSON and the trace of each field written. Waiting for a pharmacist.", done: true },
+  ];
+
+  const SRC = { sie: ["src-sie", "SIE"], cognee: ["src-cog", "cognee"], registry: ["src-reg", "Registry"], rules: ["src-rules", "Rules"], agent: ["src-sys", "Agent"], pharmacist: ["src-ph", "Pharmacist"], memory: ["src-mem", "Memory (local)"] };
+  const LABEL = { verified: "Verified", needs_review: "Needs review", unreadable: "Unreadable · withheld", missing: "Missing" };
+  const BOXCLS = { verified: "", needs_review: "warn", unreadable: "bad", missing: "miss" };
+  const BARCOL = { verified: "var(--ok)", needs_review: "#d97706", unreadable: "var(--bad)", missing: "var(--miss)" };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const instant = /[?&]run=instant\b/.test(location.search);
+
+  const $ = (s) => document.querySelector(s);
+  const list = $("#list"), sheet = $("#sheet"), scroller = $("#scroller"), feed = $("#feed");
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // run state
+  let st, idx, raf = 0, t0 = 0, finished = false, sel = null, flashUntil = 0;
+  function freshState() {
+    st = { field: {}, mem: {}, resolved: {}, checks: {}, stage: -1, stageT: {}, sie: 0, cogR: 0, cogW: 0, reg: 0, audit: 0, events: 0, lat: [], elapsed: 0 };
+    FIELDS.forEach((f) => (st.field[f.id] = "pending"));
+    CHECKS.forEach(([id]) => (st.checks[id] = ["pending", "Waiting"]));
+    idx = 0; finished = false; sel = null;
+  }
+
+  const flaggedFields = () => FIELDS.filter((f) => ["needs_review", "unreadable", "missing"].includes(st.field[f.id]));
+  const openFlags = () => flaggedFields().filter((f) => !st.resolved[f.id]);
+
+  // ---------------- rendering ----------------
+  function renderFields() {
+    list.innerHTML = FIELDS.map((f) => {
+      const s = st.field[f.id], r = st.resolved[f.id];
+      const final = !["pending", "checking"].includes(s);
+      const isFlag = final && s !== "verified";
+      let chip;
+      if (r) chip = `<span class="chip s-resolved">Resolved</span>`;
+      else if (s === "pending") chip = `<span class="chip s-pending">Waiting</span>`;
+      else if (s === "checking") chip = `<span class="chip s-checking">Checking</span>`;
+      else chip = `<span class="chip s-${s}">${LABEL[s]}</span>`;
+      const memPill = st.mem[f.id] ? `<span class="mem-pill">Seen before</span>` : "";
+      let val;
+      if (s === "pending") val = `<div class="fval"><span class="skel"></span></div>`;
+      else if (r) val = `<div class="fval">${esc(r)}</div>`;
+      else if (s === "unreadable" || (s === "checking" && f.id === "prescriber")) val = `<div class="fval withheld">${s === "checking" ? "Reading signatures…" : "Value withheld"}</div>`;
+      else val = `<div class="fval">${esc(f.value)}</div>`;
+      const pct = Math.round(f.conf * 100);
+      const conf = final ? `<div class="conf"><span class="bar"><span style="width:${pct}%;background:${r ? "var(--accent)" : BARCOL[s]}"></span></span>${s === "missing" ? "not on page" : pct + "% confidence"}</div>` : "";
+      const mem = st.mem[f.id] && f.memory ? `<div class="mem">${f.memory.text}<small>${esc(f.memory.src)} · can rank, can't verify</small></div>` : "";
+      const cands = isFlag && !r && finished && f.cands ? `<div class="cands">${f.cands.map((c, i) =>
+        `<button type="button" class="cand${i === 0 ? " top" : ""}" data-accept="${f.id}" data-i="${i}">${esc(c[0])}<small>${esc(c[1])}${i === 0 ? " · Enter" : ""}</small></button>`).join("")}</div>` : "";
+      const note = r ? `<p class="resolved-note">Resolved by pharmacist (demo): ${esc(r)}</p>` : "";
+      const detail = final ? `<div class="detail"><ul class="reasons">${f.reasons.map((x) => `<li>${x}</li>`).join("")}</ul>${mem}${cands}${note}</div>` : "";
+      return `<div class="field${sel === f.id ? " sel" : ""}${s === "pending" ? " pending" : ""}" role="option" tabindex="0" aria-selected="${sel === f.id}" data-field="${f.id}" data-flagged="${isFlag}">
+        <div class="frow"><span class="flabel">${esc(f.label)}</span>${memPill}${chip}</div>${val}${conf}${detail}</div>`;
+    }).join("");
+    const open = openFlags().length, flagged = flaggedFields().length;
+    $("#flagCount").textContent = finished ? `${FIELDS.length} fields · ${open} flag${open === 1 ? "" : "s"} open` : `${FIELDS.length} fields · ${flagged} flagged so far`;
+    const approve = $("#approve");
+    if (!st.approved) {
+      approve.disabled = !finished || open > 0;
+      $("#approveWhy").textContent = !finished
+        ? (idx === 0 ? "Waiting for a fax to process." : "Agents are still working…")
+        : open > 0 ? `Approve stays disabled: ${open} field${open === 1 ? "" : "s"} still need${open === 1 ? "s" : ""} a pharmacist.`
+        : "All flags resolved. Ready for pharmacist approval.";
+    }
+    $("#mFlags").textContent = flagged;
+    drawBoxes();
+  }
+
+  function renderChecks() {
+    const ICON = { pending: "", pass: "✓", fail: "!", paused: "‖", enforced: "✓" };
+    $("#checks").innerHTML = CHECKS.map(([id, name]) => {
+      const [s, d] = st.checks[id];
+      return `<li data-check="${id}" data-state="${s}"><span class="ic ${s}">${ICON[s]}</span><span><span class="n">${esc(name)}</span><span class="d">${esc(d)}</span></span></li>`;
+    }).join("");
+    const states = CHECKS.map(([id]) => st.checks[id][0]);
+    const badge = $("#checksBadge");
+    if (states.includes("pending")) { badge.className = "chip s-missing"; badge.textContent = idx ? "Running" : "Waiting"; }
+    else { const bad = states.filter((s) => s === "fail" || s === "paused").length; badge.className = "chip " + (bad ? "s-needs_review" : "s-verified"); badge.textContent = bad ? `${bad} need review` : "All passed"; }
+  }
+
+  function renderMon() {
+    $("#mSie").textContent = st.sie;
+    $("#mCog").textContent = `${st.cogR} / ${st.cogW}`;
+    $("#mReg").textContent = st.reg;
+    $("#mAudit").textContent = st.audit;
+    const max = Math.max(2000, ...st.lat.map((l) => l.ms));
+    $("#lat").innerHTML = st.lat.map((l) => `<li><span class="nm ${l.cls}">${esc(l.name)}</span><span class="bar"><span style="width:${Math.max(2, l.ms / max * 100)}%;background:${l.cls === "sie" ? "var(--sie)" : l.cls === "cog" ? "var(--cog)" : "var(--reg)"}"></span></span><span class="v">${l.ms ? (l.ms / 1000).toFixed(2) + " s" : "skipped"}</span></li>`).join("")
+      || `<li><span class="nm">No calls yet</span><span></span><span></span></li>`;
+  }
+
+  function renderStages(now) {
+    const started = st.stage >= 0;
+    $("#stages").classList.toggle("running", started && !finished);
+    const end = mode === "live" ? (st.endT ?? now ?? 0) : RUN.at(-1).t;
+    document.querySelectorAll("#stages li").forEach((li, i) => {
+      const done = i < st.stage || (finished && i <= st.stage);
+      const active = i === st.stage && !finished;
+      li.classList.toggle("done", done);
+      li.classList.toggle("active", active);
+      li.setAttribute("aria-current", active ? "step" : "false");
+      const em = li.querySelector("em");
+      if (active) {
+        const t = Math.max(0, ((now ?? st.elapsed) - st.stageT[i]) / 1000);
+        em.textContent = `${t.toFixed(1)}s`;
+      } else if (done) {
+        const dur = ((st.stageT[i + 1] ?? end) - st.stageT[i]) / 1000;
+        em.textContent = dur >= 0.05 ? `✓ ${dur.toFixed(1)}s` : "✓";
+      } else em.textContent = "";
+    });
+  }
+
+  // Keep a field row visible by scrolling the field list itself, never the page.
+  function keepInList(el) {
+    if (list.scrollHeight <= list.clientHeight) return;
+    const top = el.offsetTop - list.offsetTop, bottom = top + el.offsetHeight;
+    if (top < list.scrollTop) list.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
+    else if (bottom > list.scrollTop + list.clientHeight) list.scrollTo({ top: bottom - list.clientHeight, behavior: reduce ? "auto" : "smooth" });
+  }
+  function fmt(ms) { const s = ms / 1000; return `${String(Math.floor(s / 60)).padStart(2, "0")}:${(s % 60).toFixed(1).padStart(4, "0")}`; }
+
+  function addFeed(ev, elapsed) {
+    if (feed.querySelector(".empty")) feed.innerHTML = "";
+    const [cls, tag] = SRC[ev.src];
+    const label = ev.model ? `${tag} · ${ev.model}` : ev.who ? `${tag} · ${ev.who}` : tag;
+    const li = document.createElement("li");
+    li.className = ev.level || "";
+    li.innerHTML = `<span class="t">+${(elapsed / 1000).toFixed(2)}s</span><span class="src ${cls}">${esc(label)}</span><span class="m">${ev.msg}</span><span class="ms">${ev.ms ? (ev.ms / 1000).toFixed(2) + " s" : ""}</span>`;
+    feed.appendChild(li);
+    feed.scrollTop = feed.scrollHeight;
+    st.events++;
+    $("#feedCount").textContent = `${st.events} events`;
+  }
+
+  function addAudit(who, text) {
+    const a = $("#audit");
+    if (a.querySelector(".empty")) a.innerHTML = "";
+    const li = document.createElement("li");
+    const t = new Date().toLocaleTimeString([], { hour12: false });
+    li.innerHTML = `<span>${t}</span><span class="who${who.startsWith("pharmacist") ? " ph" : ""}">${esc(who)}</span><span>${esc(text)}</span>`;
+    a.prepend(li);
+    st.audit++;
+    $("#auditCount").textContent = `${st.audit} events`;
+  }
+
+  // ---------------- applying events ----------------
+  function apply(ev) {
+    if (ev.stage !== undefined && ev.stage !== st.stage) { st.stage = ev.stage; st.stageT[ev.stage] = ev.t ?? 0; }
+    addFeed(ev, ev.t ?? (performance.now() - t0));
+    if (ev.src === "sie" && ev.ms) { st.sie++; st.lat.push({ name: ev.model, ms: ev.ms, cls: "sie" }); }
+    if (ev.src === "registry") { st.reg++; st.lat.push({ name: ev.model, ms: ev.ms || 0, cls: "reg" }); }
+    if (ev.src === "cognee") {
+      if (ev.op === "read" && ev.ms) st.cogR++;
+      if (ev.op === "write") st.cogW++;
+      if (ev.ms) st.lat.push({ name: "cognee " + (ev.model || ""), ms: ev.ms, cls: "cog" });
+    }
+    if (ev.scan !== undefined) sheet.classList.toggle("scanning", ev.scan && !instant);
+    if (ev.flash && !instant) flashAll();
+    if (ev.reveal) FIELDS.forEach((f) => (st.field[f.id] = "checking"));
+    if (ev.check) st.checks[ev.check[0]] = [ev.check[1], ev.check[2]];
+    if (ev.memory) { st.mem[ev.memory] = true; sel = ev.memory; }
+    if (ev.field) {
+      const f = FIELDS.find((x) => x.id === ev.field);
+      st.field[f.id] = f.status;
+      sel = f.id;
+      addAudit(ev.who || "agent", `${f.label}: checking → ${f.status}`);
+    }
+    if (ev.audit) addAudit(ev.audit[0], ev.audit[1]);
+    if (ev.order) { const c = $("#orderChip"); c.className = "chip order-chip " + ev.order[0]; c.textContent = ev.order[1]; }
+    if (ev.done) {
+      finished = true;
+      sheet.classList.remove("scanning");
+      $("#runLabel").textContent = "Run again";
+      $("#worker").classList.remove("busy");
+      $("#workerText").textContent = "Worker online · idle";
+      sel = openFlags()[0]?.id || sel;
+    }
+    renderFields(); renderChecks(); renderMon(); renderStages();
+    if (ev.field || ev.memory) {
+      const el = list.querySelector(`[data-field="${sel}"]`);
+      if (el && !instant) { el.classList.add("just"); keepInList(el); }
+    }
+  }
+
+  function flashAll() {
+    flashUntil = performance.now() + 1100;
+    sheet.querySelectorAll(".box").forEach((b) => b.remove());
+    FIELDS.forEach((f) => f.boxes.forEach(([x, y, w, h]) => {
+      const b = document.createElement("div");
+      b.className = "box flash on";
+      b.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+      sheet.appendChild(b);
+    }));
+    setTimeout(drawBoxes, 1150);
+  }
+
+  function drawBoxes() {
+    if (mode === "live") return drawLiveBoxes();
+    if (performance.now() < flashUntil) return;
+    sheet.querySelectorAll(".box").forEach((b) => b.remove());
+    const f = FIELDS.find((x) => x.id === sel);
+    if (!f) return;
+    const s = st.field[f.id];
+    const cls = st.resolved[f.id] || s === "checking" ? "" : BOXCLS[s] ?? "";
+    f.boxes.forEach(([x, y, w, h, lbl]) => {
+      const b = document.createElement("div");
+      b.className = "box " + cls;
+      b.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+      b.innerHTML = `<em>${esc(lbl)}</em>`;
+      sheet.appendChild(b);
+      setTimeout(() => b.classList.add("on"), 16);
+    });
+    const [x, y, w, h] = f.boxes[0];
+    scroller.scrollTo({ left: (x + w / 2) / 100 * sheet.offsetWidth - scroller.clientWidth / 2 + 18,
+      top: (y + h / 2) / 100 * sheet.offsetHeight - scroller.clientHeight / 2 + 18, behavior: reduce || instant ? "auto" : "smooth" });
+  }
+
+  // ---------------- run control ----------------
+  function tick() {
+    const el = performance.now() - t0;
+    st.elapsed = el;
+    while (idx < RUN.length && RUN[idx].t <= el) apply(RUN[idx++]);
+    $("#elapsed").textContent = fmt(Math.min(el, RUN.at(-1).t));
+    if (!finished) renderStages(el);
+    if (idx < RUN.length) raf = setTimeout(tick, 40);
+  }
+  function start() {
+    clearTimeout(raf);
+    reset(true);
+    $("#worker").classList.add("busy");
+    $("#workerText").textContent = "Worker busy · PS-0142";
+    if (instant) { t0 = performance.now() - RUN.at(-1).t; while (idx < RUN.length) apply(RUN[idx++]); $("#elapsed").textContent = fmt(RUN.at(-1).t); return; }
+    t0 = performance.now();
+    raf = setTimeout(tick, 0);
+  }
+  function skip() {
+    if (idx === 0) { start(); }
+    clearTimeout(raf);
+    t0 = performance.now() - RUN.at(-1).t;
+    while (idx < RUN.length) apply(RUN[idx++]);
+    $("#elapsed").textContent = fmt(RUN.at(-1).t);
+  }
+  function reset(keepFeed) {
+    clearTimeout(raf);
+    freshState();
+    st.approved = false;
+    feed.innerHTML = `<li class="empty">Press <b>Process fax</b> to stream the pipeline.</li>`;
+    $("#feedCount").textContent = "0 events";
+    $("#audit").innerHTML = `<li class="empty">Every status change, resolution, approval and export is recorded here with actor, time, before and after.</li>`;
+    $("#auditCount").textContent = "0 events";
+    const c = $("#orderChip"); c.className = "chip order-chip s-missing"; c.textContent = "Queued";
+    $("#elapsed").textContent = fmt(0);
+    $("#runLabel").textContent = "Process fax";
+    $("#worker").classList.remove("busy");
+    $("#workerText").textContent = "Worker online";
+    sheet.classList.remove("scanning");
+    renderFields(); renderChecks(); renderMon(); renderStages();
+  }
+
+  // ---------------- pharmacist actions ----------------
+  function logLive(ev) { apply({ ...ev, t: undefined }); }
+  function accept(id, i) {
+    const f = FIELDS.find((x) => x.id === id);
+    if (!finished || !f || !f.cands || st.resolved[id] || st.approved) return;
+    const [value, reason] = f.cands[i];
+    const before = st.field[id] === "unreadable" ? "[withheld]" : f.value;
+    st.resolved[id] = value;
+    addAudit("pharmacist.demo", `${f.label}: "${before}" → "${value}" · reason: ${reason}`);
+    logLive({ src: "pharmacist", who: "pharmacist.demo", level: "ok", msg: `Resolved <b>${esc(f.label)}</b> → ${esc(value)} (${esc(reason)}).` });
+    logLive({ src: "sie", model: "pii-redact", ms: 120, msg: "<b>pii-redact</b> scrubbed the correction before it reaches memory; patient fields stripped structurally." });
+    logLive({ src: "cognee", op: "write", ms: 90, model: "write", who: "pharmacist", level: "ok", msg: `Wrote to <b>pharmacist_corrections</b>: field, each model's reading, final value, reason. No patient identifiers.` });
+    if (st.mem[id]) logLive({ src: "cognee", op: "write", who: "feedback", level: "ok", msg: "Pharmacist accepted the memory suggestion → feedback recorded; <b>improve()</b> will reinforce this pattern." });
+    const next = openFlags()[0];
+    sel = next ? next.id : id;
+    if (!next) logLive({ src: "agent", who: "triage-agent", level: "ok", msg: "All flags resolved. Order status: <b>Ready to approve</b>.", order: ["s-ready", "Ready to approve"], audit: ["triage-agent", "order PS-0142 status: blocked → ready_to_approve"] });
+    renderFields();
+    const el = list.querySelector(`[data-field="${sel}"]`);
+    if (el) { keepInList(el); el.focus({ preventScroll: true }); }
+  }
+
+  list.addEventListener("click", (e) => {
+    if (mode === "live") return liveClick(e);
+    const a = e.target.closest("[data-accept]");
+    if (a) { accept(a.dataset.accept, +a.dataset.i); return; }
+    const row = e.target.closest("[data-field]");
+    if (row && !row.classList.contains("pending")) { sel = row.dataset.field; renderFields(); list.querySelector(`[data-field="${sel}"]`)?.focus({ preventScroll: true }); }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || /INPUT|TEXTAREA/.test(e.target.tagName) || (!finished && mode !== "live")) return;
+    const r = $("#demo").getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    if (mode === "live") return liveKey(e);
+    const fl = flaggedFields(), k = e.key.toLowerCase();
+    if ((k === "j" || k === "k") && fl.length) {
+      e.preventDefault();
+      const i = fl.findIndex((f) => f.id === sel);
+      const n = i === -1 ? 0 : k === "j" ? (i + 1) % fl.length : (i - 1 + fl.length) % fl.length;
+      sel = fl[n].id; renderFields();
+      const el = list.querySelector(`[data-field="${sel}"]`); if (el) { keepInList(el); el.focus({ preventScroll: true }); }
+    } else if (e.key === "Enter" && sel && !e.target.closest("button")) { e.preventDefault(); accept(sel, 0); }
+  });
+
+  $("#approve").addEventListener("click", () => {
+    if (mode === "live") return liveApprove();
+    if (!finished || openFlags().length) return;
+    st.approved = true;
+    addAudit("pharmacist.demo", "order PS-0142 approved");
+    logLive({ src: "pharmacist", who: "pharmacist.demo", level: "ok", msg: "Order <b>approved</b>.", order: ["s-verified", "Approved"] });
+    addAudit("order-agent", "export generated: JSON, CSV, FHIR R4 MedicationRequest ×2");
+    logLive({ src: "agent", who: "order-agent", level: "ok", msg: "Exports ready: JSON, CSV and FHIR R4 <b>MedicationRequest</b> (validated against the R4 shape). Nothing was sent anywhere." });
+    $("#approve").disabled = true;
+    $("#approveWhy").textContent = "Approved in this demo. Nothing was sent anywhere.";
+  });
+  $("#reset").addEventListener("click", () => (mode === "live" ? liveReset() : reset()));
+  $("#run").addEventListener("click", () => (mode === "live" ? liveStart({ sample: SAMPLE }) : start()));
+  $("#skip").addEventListener("click", skip);
+  $("#zoomBtn").addEventListener("click", (e) => {
+    const on = sheet.classList.toggle("zoomed");
+    e.currentTarget.setAttribute("aria-pressed", on);
+    e.currentTarget.textContent = on ? "Fit" : "Zoom";
+    setTimeout(drawBoxes, reduce ? 0 : 380);
+  });
+  addEventListener("resize", () => drawBoxes());
+
+  // heartbeat
+  let lastBeat = Date.now();
+  setInterval(() => { lastBeat = Date.now(); }, 5000);
+  setInterval(() => { $("#beat").textContent = `heartbeat ${Math.round((Date.now() - lastBeat) / 1000)}s ago`; }, 1000);
+  $("#beat").textContent = "heartbeat 0s ago";
+
+
+  // ===========================================================================
+  // LIVE MODE: when this page is served by the PillSpark backend, the demo runs
+  // real intakes. Events stream from /api/orders/{id}/events (server-sent events).
+  // ===========================================================================
+  let mode = "replay", live = null, liveInfo = null, es = null;
+  const SAMPLE = "chemo_chart_redacted.jpg";
+  const STATUS_CHIP = { queued: ["s-missing", "Queued"], processing: ["s-checking", "Processing"], blocked: ["s-blocked", "Blocked"],
+    ready: ["s-ready", "Ready to approve"], approved: ["s-verified", "Approved"], failed: ["s-unreadable", "Failed"] };
+  const LIVE_LABEL = { verified: "Verified", needs_review: "Needs review", unreadable: "Unreadable · withheld", missing: "Missing",
+    resolved: "Resolved", checking: "Checking", pending: "Waiting" };
+
+  function setChip(status) {
+    const [cls, txt] = STATUS_CHIP[status] || ["s-missing", status];
+    const c = $("#orderChip"); c.className = "chip order-chip " + cls; c.textContent = txt;
+  }
+
+  function liveReset() {
+    clearTimeout(raf);
+    if (es) { es.close(); es = null; }
+    freshState();
+    st.approved = false; st.credits = 0;
+    live = { id: null, fields: [], sel: null, status: "queued", done: false, t0: performance.now() };
+    feed.innerHTML = `<li class="empty">Upload a document or press <b>Process sample chart</b>. Every event below comes from the server as it happens.</li>`;
+    $("#feedCount").textContent = "0 events";
+    $("#audit").innerHTML = `<li class="empty">Every status change, resolution, approval and export is recorded here with actor, time, before and after.</li>`;
+    $("#auditCount").textContent = "0 events";
+    setChip("queued"); $("#elapsed").textContent = fmt(0);
+    sheet.classList.remove("scanning");
+    sheet.querySelectorAll(".box").forEach((b) => b.remove());
+    renderChecks(); renderMon(); renderStages(); renderLiveFields();
+    $("#approve").disabled = true;
+    $("#approveWhy").textContent = "Waiting for a document.";
+  }
+
+  function placeBox(x, y, w, h, cls, label) {
+    const b = document.createElement("div");
+    b.className = "box " + cls;
+    b.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+    if (label) b.innerHTML = `<em>${esc(label)}</em>`;
+    sheet.appendChild(b);
+    setTimeout(() => b.classList.add("on"), 16);
+    return b;
+  }
+
+  function drawLiveBoxes() {
+    if (performance.now() < flashUntil) return;
+    sheet.querySelectorAll(".box").forEach((b) => b.remove());
+    const f = live && live.fields.find((x) => x.key === live.sel);
+    const boxes = (f && (f.evidence || {}).boxes) || [];
+    if (!boxes.length) return;
+    const cls = f.status === "resolved" ? "" : (BOXCLS[f.status] ?? "");
+    boxes.forEach(([x, y, w, h, lbl]) => placeBox(x, y, w, h, cls, lbl));
+    const [x, y, w, h] = boxes[0];
+    scroller.scrollTo({ left: (x + w / 2) / 100 * sheet.offsetWidth - scroller.clientWidth / 2 + 18,
+      top: (y + h / 2) / 100 * sheet.offsetHeight - scroller.clientHeight / 2 + 18, behavior: reduce ? "auto" : "smooth" });
+  }
+
+  function flashRegions(regions) {
+    sheet.querySelectorAll(".box").forEach((b) => b.remove());
+    flashUntil = performance.now() + 1300;
+    regions.forEach(([x, y, w, h]) => placeBox(x, y, w, h, "flash", ""));
+    setTimeout(drawLiveBoxes, 1350);
+  }
+
+  function liveFeed(ev) {
+    const map = { sie: "sie", registry: "registry", rules: "rules", agent: "agent", pharmacist: "pharmacist",
+      memory: ev.model === "cognee" ? "cognee" : "memory" };
+    const src = map[ev.src] || "agent";
+    const label = ev.model ? ev.model : ev.who;
+    const fake = { src, model: (src === "memory" || src === "cognee") ? null : label, who: ev.who, level: ev.level,
+      msg: esc(ev.msg) + (ev.replayed ? ' <span class="replay">replayed</span>' : ""),
+      ms: ev.ms, t: ev.t ?? (performance.now() - live.t0) };
+    if (src === "sie" && ev.ms) { st.sie++; st.credits += ev.credits || 0; st.lat.push({ name: ev.model, ms: ev.ms, cls: "sie" }); }
+    if (src === "registry" && ev.ms !== undefined) { st.reg++; st.lat.push({ name: ev.model, ms: ev.ms || 0, cls: "reg" }); }
+    if (ev.src === "memory") {
+      if (ev.op === "read") st.cogR++;
+      if (ev.op === "write") st.cogW++;
+      if (ev.ms !== undefined && ev.op === "read") st.lat.push({ name: (ev.model || "memory") + " recall", ms: ev.ms, cls: "cog" });
+    }
+    addFeed(fake, fake.t);
+    if (ev.credits) $("#mSieSub").textContent = `SIE model calls · ${Math.round(st.credits)} credits`;
+  }
+
+  function onLiveEvent(ev) {
+    if (ev.type === "stage") { if (ev.stage !== st.stage) { st.stage = ev.stage; st.stageT[ev.stage] = ev.t || 0; } }
+    if (ev.type === "scan") sheet.classList.toggle("scanning", !!ev.scan);
+    if (ev.type === "regions" && ev.regions) flashRegions(ev.regions);
+    if (ev.type === "check") { st.checks[ev.check[0]] = [ev.check[1], ev.check[2]]; renderChecks(); }
+    if (ev.type === "fields") { live.fields = ev.fields; if (!live.sel || !live.fields.find((f) => f.key === live.sel)) live.sel = (live.fields.find(isLiveFlag) || live.fields[0] || {}).key; renderLiveFields(); }
+    if (ev.order_status) { live.status = ev.order_status; setChip(ev.order_status); }
+    if (ev.type === "done") {
+      live.done = true; finished = true; st.endT = ev.t; live.status = ev.status || "blocked"; setChip(live.status);
+      sheet.classList.remove("scanning");
+      $("#worker").classList.remove("busy"); $("#workerText").textContent = "Worker online · idle";
+      $("#runLabel").textContent = "Process sample again";
+      refreshOrder(); refreshAudit();
+    } else if (st.stage >= 0 && !live.done) setChip("processing");
+    if (ev.memory) { live.sel = ev.memory; }
+    if (!ev.quiet && ev.type !== "fields" && ev.type !== "audit") liveFeed(ev);
+    if (ev.type === "audit") refreshAudit();
+    $("#mFlags").textContent = live.fields.filter(isLiveFlag).length;
+    renderMon(); renderStages(live.done ? undefined : ev.t);
+    if (ev.t) $("#elapsed").textContent = fmt(ev.t);
+  }
+
+  const isLiveFlag = (f) => ["needs_review", "unreadable", "missing"].includes(f.status);
+
+  function renderLiveFields() {
+    if (!live) return;
+    if (!live.fields.length) {
+      list.innerHTML = `<div class="live-empty">${live.id ? "Waiting for the extraction agents…" : "No document yet."}</div>`;
+      $("#flagCount").textContent = "Fields";
+      $("#approveWhy").textContent = live.id ? "Agents are still working…" : "Waiting for a document.";
+      return;
+    }
+    let lastGroup = null;
+    list.innerHTML = live.fields.map((f) => {
+      const head = f.group !== lastGroup ? `<div class="group-h">${esc(f.group)}</div>` : "";
+      lastGroup = f.group;
+      const flag = isLiveFlag(f);
+      const s = f.status;
+      const val = s === "resolved" ? esc(f.resolved_value) : f.value != null && f.value !== "" ? esc(f.value) : s === "missing" ? "—" : s === "unreadable" ? "Value withheld" : "…";
+      const valCls = s === "unreadable" ? "fval withheld" : "fval";
+      const pct = Math.round((f.confidence || 0) * 100);
+      const bar = ["checking", "pending"].includes(s) ? "" : `<div class="conf"><span class="bar"><span style="width:${s === "missing" ? 0 : pct}%;background:${s === "resolved" ? "var(--accent)" : BARCOL[s] || "var(--line-2)"}"></span></span>${s === "missing" ? "not on page" : pct + "% confidence"}</div>`;
+      const reasons = (f.reasons || []).filter((r) => !r.startsWith("Seen before") && !r.startsWith("Agent note"));
+      const mem = (f.memory || []).map((m) => `<div class="mem">${esc(m.text)}<small>${String(m.stored_in || "").startsWith("cognee") ? "cognee" : "memory (local)"} · ${esc(m.dataset)} · can rank, can't verify</small></div>`).join("");
+      const ocr = Object.entries((f.evidence || {}).ocr || {}).map(([k, v]) => `<div class="ocr"><b>${esc(k)}</b> ${esc(v)}</div>`).join("");
+      const cands = flag && live.done && live.status !== "approved" ? `<div class="cands">${(f.candidates || []).filter((c) => c.value != null && String(c.value).trim()).slice(0, 4).map((c, i) =>
+        `<button type="button" class="cand${i === 0 ? " top" : ""}" data-live-accept="${esc(f.key)}" data-v="${esc(c.value)}" data-r="${esc((c.sources || []).join(", ") || "candidate")}">${esc(c.value)}<small>${esc((c.sources || []).slice(0, 2).join(" · ") || "candidate")}${i === 0 ? " · Enter" : ""}</small></button>`).join("")}
+        <button type="button" class="cand" data-live-edit="${esc(f.key)}">Enter value…<small>reason required</small></button></div>` : "";
+      const where = (f.evidence || {}).boxes && f.evidence.boxes.length ? "" : s === "missing" ? "" : `<p class="noloc">Not located on the page by either reader.</p>`;
+      const note = s === "resolved" ? `<p class="resolved-note">Resolved by ${esc(f.resolved_by)}: ${esc(f.resolved_value)} (${esc(f.resolution_reason)})</p>` : "";
+      const memPill = (f.memory || []).length ? `<span class="mem-pill">Seen before</span>` : "";
+      const chip = `<span class="chip s-${s === "resolved" ? "resolved" : s}">${LIVE_LABEL[s] || s}</span>`;
+      return `${head}<div class="field${live.sel === f.key ? " sel" : ""}" role="option" tabindex="0" aria-selected="${live.sel === f.key}" data-field="${esc(f.key)}" data-flagged="${flag}">
+        <div class="frow"><span class="flabel">${esc(f.label)}</span>${memPill}${chip}</div><div class="${valCls}">${val}</div>${bar}
+        <div class="detail"><ul class="reasons">${reasons.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>${mem}${ocr}${where}${cands}${note}</div></div>`;
+    }).join("");
+    const open = live.fields.filter(isLiveFlag).length;
+    $("#flagCount").textContent = `${live.fields.length} fields · ${open} flag${open === 1 ? "" : "s"} open`;
+    drawLiveBoxes();
+    const approve = $("#approve");
+    approve.disabled = !(live.done && live.status === "ready");
+    $("#approveWhy").textContent = !live.done ? (live.id ? "Agents are still working…" : "Waiting for a document.")
+      : live.status === "approved" ? "Approved. Exports are ready below."
+      : open ? `Approve stays disabled: ${open} field${open === 1 ? "" : "s"} still need${open === 1 ? "s" : ""} a pharmacist.` : "All flags resolved. Ready for pharmacist approval.";
+  }
+
+  async function refreshOrder() {
+    if (!live.id) return;
+    const o = await (await fetch(`/api/orders/${live.id}`)).json();
+    live.fields = Object.values(o.fields); live.status = o.status; setChip(o.status);
+    if (!live.fields.find((f) => f.key === live.sel)) live.sel = (live.fields.find(isLiveFlag) || live.fields[0] || {}).key;
+    renderLiveFields();
+  }
+
+  async function refreshAudit() {
+    if (!live.id) return;
+    const rows = (await (await fetch(`/api/orders/${live.id}/audit`)).json()).audit;
+    const a = $("#audit");
+    a.innerHTML = rows.slice().reverse().map((r) => {
+      const t = new Date(r.ts * 1000).toLocaleTimeString([], { hour12: false });
+      const what = `${r.action}${r.field ? " " + r.field : ""}${r.before != null || r.after != null ? `: ${r.before ?? "—"} → ${r.after ?? "—"}` : ""}${r.reason ? " · " + r.reason : ""}`;
+      return `<li><span>${t}</span><span class="who${r.actor.startsWith("pharmacist") ? " ph" : ""}">${esc(r.actor)}</span><span>${esc(what)}</span></li>`;
+    }).join("") || `<li class="empty">No audit events yet.</li>`;
+    st.audit = rows.length; $("#auditCount").textContent = `${rows.length} events`; renderMon();
+  }
+
+  async function liveStart(payload) {
+    liveReset();
+    $("#worker").classList.add("busy"); $("#workerText").textContent = "Uploading…";
+    let r;
+    try {
+      const key = (crypto.randomUUID && crypto.randomUUID()) || String(Date.now());
+      r = payload.file
+        ? await fetch("/api/intake", { method: "POST", body: (() => { const fd = new FormData(); fd.append("file", payload.file); return fd; })(), headers: { "Idempotency-Key": key } })
+        : await fetch("/api/intake", { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": key }, body: JSON.stringify({ sample: payload.sample }) });
+    } catch (e) { r = null; }
+    if (!r || !r.ok) {
+      const msg = r ? (await r.json().catch(() => ({}))).detail || `HTTP ${r.status}` : "Server unreachable";
+      liveFeed({ src: "agent", who: "intake", level: "block", msg: `Upload refused: ${msg}` });
+      $("#worker").classList.remove("busy"); $("#workerText").textContent = "Worker online";
+      return;
+    }
+    const j = await r.json();
+    live.id = j.order_id; live.t0 = performance.now();
+    if (payload.sample) { const img = sheet.querySelector("img"); img.src = "assets/demo-chart.jpg"; $(".redact-note").textContent = "Patient identifiers redacted"; }
+    $("#orderTitle").textContent = `Order ${j.order_id}`;
+    $("#orderMeta").textContent = `${payload.file ? payload.file.name : "Sample chemotherapy chart"} · ${j.model_backend === "mock" ? "replay of a recorded SIE run" : "live on Superlinked SIE"}`;
+    $("#workerText").textContent = `Worker busy · ${j.order_id}`;
+    renderLiveFields();
+    es = new EventSource(`/api/orders/${j.order_id}/events`);
+    es.onmessage = (m) => { const ev = JSON.parse(m.data); onLiveEvent(ev); if (ev.type === "done") { es.close(); es = null; } };
+    es.onerror = () => { if (es && live.done) { es.close(); es = null; } };
+  }
+
+  async function liveResolve(key, value, reason) {
+    const r = await fetch(`/api/orders/${live.id}/fields/${encodeURIComponent(key)}/resolve`, {
+      method: "POST", headers: { "Content-Type": "application/json", "X-User": "pharmacist.demo" }, body: JSON.stringify({ value, reason }) });
+    const j = await r.json();
+    if (!r.ok) { liveFeed({ src: "agent", who: "api", level: "block", msg: j.detail || `HTTP ${r.status}` }); return; }
+    j.events.forEach((ev) => { if (!ev.quiet) liveFeed(ev); if (ev.order_status) setChip(ev.order_status); });
+    live.fields = Object.values(j.order.fields); live.status = j.order.status; setChip(j.order.status);
+    const next = live.fields.find(isLiveFlag); live.sel = next ? next.key : key;
+    $("#mFlags").textContent = live.fields.filter(isLiveFlag).length;
+    renderLiveFields(); renderMon(); refreshAudit();
+    const el = list.querySelector(`[data-field="${CSS.escape(live.sel)}"]`); if (el) { keepInList(el); el.focus({ preventScroll: true }); }
+  }
+
+  function liveClick(e) {
+    const a = e.target.closest("[data-live-accept]");
+    if (a) return liveResolve(a.dataset.liveAccept, a.dataset.v, `Accepted candidate (${a.dataset.r})`);
+    const ed = e.target.closest("[data-live-edit]");
+    if (ed) {
+      const v = prompt("Value as confirmed by the pharmacist:"); if (!v) return;
+      const why = prompt("Reason for this value (required), e.g. confirmed with the prescriber by phone:"); if (!why || !why.trim()) return;
+      return liveResolve(ed.dataset.liveEdit, v, why);
+    }
+    const row = e.target.closest("[data-field]");
+    if (row) { live.sel = row.dataset.field; renderLiveFields(); list.querySelector(`[data-field="${CSS.escape(live.sel)}"]`)?.focus({ preventScroll: true }); }
+  }
+
+  function liveKey(e) {
+    if (!live.done) return;
+    const fl = live.fields.filter(isLiveFlag), k = e.key.toLowerCase();
+    if ((k === "j" || k === "k") && fl.length) {
+      e.preventDefault();
+      const i = fl.findIndex((f) => f.key === live.sel);
+      live.sel = fl[i === -1 ? 0 : k === "j" ? (i + 1) % fl.length : (i - 1 + fl.length) % fl.length].key;
+      renderLiveFields();
+      const el = list.querySelector(`[data-field="${CSS.escape(live.sel)}"]`); if (el) { keepInList(el); el.focus({ preventScroll: true }); }
+    } else if (e.key === "Enter" && live.sel && !e.target.closest("button")) {
+      const f = live.fields.find((x) => x.key === live.sel);
+      const c = f && isLiveFlag(f) && (f.candidates || []).find((c) => c.value != null && String(c.value).trim());
+      if (c) { e.preventDefault(); liveResolve(f.key, c.value, `Accepted top candidate (${(c.sources || []).join(", ")})`); }
+    }
+  }
+
+  async function liveApprove() {
+    const r = await fetch(`/api/orders/${live.id}/approve`, { method: "POST", headers: { "Content-Type": "application/json", "X-User": "pharmacist.demo" }, body: "{}" });
+    const j = await r.json();
+    if (!r.ok) { liveFeed({ src: "agent", who: "api", level: "block", msg: j.detail || `HTTP ${r.status}` }); return; }
+    j.events.forEach((ev) => liveFeed(ev));
+    live.status = "approved"; setChip("approved");
+    $("#exports").innerHTML = ["json", "csv", "fhir"].map((f) => `<a class="btn btn-ghost btn-sm" href="/api/orders/${live.id}/export?format=${f}" target="_blank" rel="noopener">${f === "fhir" ? "FHIR R4" : f.toUpperCase()}</a>`).join("");
+    renderLiveFields(); refreshAudit();
+  }
+
+  function enableLive(info) {
+    mode = "live"; liveInfo = info;
+    document.body.classList.add("is-live");
+    $("#intake").hidden = false;
+    $("#modeBadge").textContent = info.model_backend === "sie" ? "Live · Superlinked SIE" : "Replay of a recorded SIE run";
+    $("#modeBadge").className = "mode-badge " + (info.model_backend === "sie" ? "on" : "");
+    $("#memBadge").textContent = info.memory === "cognee" ? "Memory: cognee" : "Memory: local store";
+    $("#mCogSub").textContent = info.memory === "cognee" ? "memory reads / writes (cognee)" : "memory reads / writes (local)";
+    $("#runLabel").textContent = "Process sample chart";
+    $("#skip").hidden = true;
+    $("#honesty").innerHTML = `<b>Live mode:</b> this page is connected to the PillSpark backend. Each run uploads the document, queues it and runs the six agents on real open models served by Superlinked SIE (${Object.values(info.models).map(esc).join(", ")}), with RxNorm and NPPES lookups. Everything in the feed, checks, monitoring and audit trail comes from the server as it happens. The sample chart has its patient identifiers removed from the image before it is sent.`;
+    liveReset();
+    const dz = $("#dropzone"), fi = $("#fileInput");
+    dz.addEventListener("click", () => fi.click());
+    dz.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fi.click(); } });
+    fi.addEventListener("change", () => { if (fi.files[0]) { showUpload(fi.files[0]); liveStart({ file: fi.files[0] }); fi.value = ""; } });
+    ["dragenter", "dragover"].forEach((t) => dz.addEventListener(t, (e) => { e.preventDefault(); dz.classList.add("drag"); }));
+    ["dragleave", "drop"].forEach((t) => dz.addEventListener(t, (e) => { e.preventDefault(); dz.classList.remove("drag"); }));
+    dz.addEventListener("drop", (e) => { const f = e.dataTransfer.files[0]; if (f) { showUpload(f); liveStart({ file: f }); } });
+    if (/[?&]autorun=sample\b/.test(location.search)) liveStart({ sample: SAMPLE });
+  }
+
+  function showUpload(file) {
+    const img = sheet.querySelector("img");
+    img.src = URL.createObjectURL(file);
+    img.alt = `Uploaded document ${file.name}`;
+    img.removeAttribute("width"); img.removeAttribute("height");
+    $(".redact-note").textContent = "Your upload";
+  }
+
+  // boot: live when served by the PillSpark backend, otherwise the scripted replay
+  reset();
+  const probe = location.protocol.startsWith("http") && !instant
+    ? fetch("/readyz", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null);
+  probe.then((info) => {
+    if (info && info.models) { enableLive(info); return; }
+    if (instant) start();
+    else if ("IntersectionObserver" in window) {
+      let started = false;
+      new IntersectionObserver((ents, o) => { if (ents[0].isIntersecting && !started) { started = true; o.disconnect(); setTimeout(start, 400); } }, { threshold: 0.35 }).observe($("#stages"));
+    }
+  });
+
+  // ---------------- benchmark (real numbers only, from bench/results.json) ----------------
+  // { "backends": { "sie": { "verified_precision": 0.98, "flag_recall": 0.97, "guesses": 0,
+  //   "auto_verified_fraction": 0.6, "median_latency_s": 4.1, "cost_per_1k_usd": 1.2 }, ... }, "takeaway": "..." }
+  const BACKENDS = [["sie", "Superlinked SIE (open models)"], ["nicrron", "Nicrron (previous prototype)"], ["frontier", "Frontier model baseline"]];
+  const pct = (v) => v == null ? null : (v * 100).toFixed(1) + "%";
+  function benchRows(data) {
+    const b = (data && data.backends) || {};
+    $("#benchBody").innerHTML = BACKENDS.map(([k, name]) => {
+      const r = b[k];
+      if (!r) return `<tr><td>${name}</td><td class="num notrun" colspan="6">not run</td></tr>`;
+      const cells = [pct(r.verified_precision), pct(r.flag_recall), r.guesses, pct(r.auto_verified_fraction),
+        r.median_latency_s == null ? null : r.median_latency_s + " s", r.cost_per_1k_usd == null ? null : "$" + Number(r.cost_per_1k_usd).toFixed(2)];
+      return `<tr><td>${name}</td>${cells.map((c) => `<td class="num">${c == null ? '<span class="notrun">—</span>' : esc(String(c))}</td>`).join("")}</tr>`;
+    }).join("");
+    if (data && data.takeaway) $("#benchNote").textContent = data.takeaway;
+  }
+  benchRows(null);
+  fetch("bench/results.json", { cache: "no-store" }).then((r) => r.ok ? r.json() : null).then((d) => d && benchRows(d)).catch(() => {});
+})();
+</script>
+</body>
+</html>

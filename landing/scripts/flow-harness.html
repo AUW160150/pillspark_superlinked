@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8"><title>flow harness</title>
+<body><pre id="out">pending</pre><iframe id="f" src="../index.html?run=instant" style="width:1300px;height:900px"></iframe>
+<script>
+// Drives the pharmacist path inside the landing page and reports what it observed.
+const f = document.getElementById("f");
+f.onload = () => setTimeout(() => {
+  const d = f.contentDocument, r = {};
+  const count = (sel) => d.querySelectorAll(sel).length;
+  const feedHas = (txt) => [...d.querySelectorAll("#feed li")].filter((li) => li.textContent.includes(txt)).length;
+  r.blockedAtStart = d.getElementById("orderChip").textContent;
+  r.approveDisabledAtStart = d.getElementById("approve").disabled;
+  let clicks = 0, b;
+  while ((b = d.querySelector('[data-accept][data-i="0"]')) && clicks < 20) { b.click(); clicks++; }
+  r.clicks = clicks;
+  r.approveEnabled = !d.getElementById("approve").disabled;
+  r.pharmacistAudit = count("#audit .who.ph");
+  r.piiRedact = feedHas("pii-redact");
+  r.cogneeWrites = feedHas("Wrote to pharmacist_corrections");
+  r.feedback = feedHas("feedback recorded");
+  r.cogneeTile = d.getElementById("mCog").textContent;
+  r.readyChip = d.getElementById("orderChip").textContent;
+  d.getElementById("approve").click();
+  r.approvedChip = d.getElementById("orderChip").textContent;
+  r.fhir = feedHas("MedicationRequest");
+  d.getElementById("reset").click();
+  r.afterResetDisabled = d.getElementById("approve").disabled;
+  r.afterResetFeedEmpty = count("#feed li.empty") === 1;
+  d.getElementById("run").click();
+  r.rerunChip = d.getElementById("orderChip").textContent;
+  r.rerunFlagged = count('[data-flagged="true"]');
+  document.getElementById("out").textContent = JSON.stringify(r);
+}, 600);
+</script>

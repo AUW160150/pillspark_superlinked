@@ -1,0 +1,5662 @@
+{
+ "ocr|zai-org/GLM-OCR|da39a3ee5e6b": {
+  "value": "Delta Hospital Ltd. (Oncology Unit)\nCHEMOTHERAPY CHART\n\nName: Age 66 y Sex M Reg. No\n\nDiagnosis: Acute myeloid leukemia\n\nHistopathology: Body Surface area\n\nChemotherapy Regimen: 3+7 protocol\n\nCYCLE DRUGS DOSE BLOOD PICTURE & OTHERS REMARKS\n\n01/05/24 C1D1 Gnj DAUNORUGICIN (90mg) + Gnf N1S 200ml IN over 1 hour.\nGnj cytoxan (150mg) + Gnf N1S 1000ml IN over 24 hour.\n\n01/9/24 C1D2 Gnj Dauno (80mg) 200ml N1S - ONATE THC\nCytosate 150mg & ONATE 24 hours.\n\n9/9/24 C1D3 \u2192 Gnj Dauno (80mg) 150ml N1S 200ml IN 1h\n\u2192 Gnj cytoxan 150mg + N1S 200ml\n\n4/9/24 C1D4 Gnj cytoxan (150mg) + Gnf N1S IL IN over 22 hour.\n\nDoctor's Name\nDate: Consent of Patient",
+  "meta": {
+   "model": "zai-org/GLM-OCR",
+   "ms": 2764,
+   "credits": 25.0
+  }
+ },
+ "ocr|lightonai/LightOnOCR-3-4B|da39a3ee5e6b": {
+  "value": "# Delta Hospital Ltd. (Oncology Unit)\n\n## CHEMOTHERAPY CHART\n\nName: [Redacted]  \nAge: 66y  \nSex: M  \nReg. No: [Redacted]\n\nDiagnosis: Acute myeloid leukaemia\n\nHistopathology:  \nBody Surface area:\n\nChemotherapy Regimen: 3+7 protocol\n\n<table>\n  <thead>\n    <tr>\n      <th>DATE</th>\n      <th>CYCLE</th>\n      <th>DRUGS</th>\n      <th>DOSE</th>\n      <th>BLOOD PICTURE & OTHERS</th>\n      <th>REMARKS</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>04/09/24</td>\n      <td>CID1</td>\n      <td>9mg DAUNORUBICIN (90mg) + 9mg N/S 200ml IN over 1 hour.<br>9mg cytarabine (150mg) + 9mg N/S 1000ml IN over 24 hours.</td>\n      <td>90mg<br>150mg</td>\n      <td>3</td>\n      <td>Dr. Shubing (MD)</td>\n    </tr>\n    <tr>\n      <td>2/9/24</td>\n      <td>CID2</td>\n      <td>\u2192 I.V. Daunorubicin (80mg) @ 200ml N/S - over 1 hr<br>\u2192 I.V. Cytosar-C 150mg @ 1L N/S - over 24 hrs.</td>\n      <td>80mg<br>150mg</td>\n      <td>5</td>\n      <td>Dr. Shubing (MD)</td>\n    </tr>\n    <tr>\n      <td>3/9/24</td>\n      <td>CID3</td>\n      <td>\u2192 I.V. Daunorubicin (80mg) 150ml N/S 200ml IN over 1 hr<br>\u2192 I.V. cytarabine 150mg + 1L N/S 2212</td>\n      <td>80mg<br>150mg</td>\n      <td>5</td>\n      <td>Dr. Shubing (MD)<br>3/7/24</td>\n    </tr>\n    <tr>\n      <td>4/9/24</td>\n      <td>CID4</td>\n      <td>9mg cytarabine (150mg) + 9mg N/S 1L IN over 22 hours.</td>\n      <td>150mg</td>\n      <td>-</td>\n      <td>Dr. Shubing (MD)</td>\n    </tr>\n  </tbody>\n</table>\n\nDoctor's Name:  \nDate:  \nConsent of Patient",
+  "meta": {
+   "model": "lightonai/LightOnOCR-3-4B",
+   "ms": 6457,
+   "credits": 144.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|c3efca2021c2": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith (MD)",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 289,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|6c22ba80b189": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Lee",
+   "prescriber_npi": "4/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 562,
+   "credits": 2.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|684891e952fb": {
+  "value": {
+   "diagnosis": "Acute myeloid leukemia",
+   "regimen": "3+7 protocol"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 452,
+   "credits": 5.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|4221efff42d7": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "IV 200ml N/S over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "IV 1L N/S over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "IV 150ml N/S over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "IV 1L N/S",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 2L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 20301,
+   "credits": 470.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|e5c0c6120ba7": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "DAUNORUGICIN"
+      ]
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 200ml IN over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "01/05/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 1000ml IN over 24 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "01/05/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj 200ml N1S - ONATE THC",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "Gnj 200ml N1S - ONATE 1h"
+      ]
+     },
+     "date": {
+      "value": "01/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosate",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [
+       "cytoxan"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj & 1L N1S - ONATE 24 hours",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": []
+     },
+     "date": {
+      "value": "01/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj 150ml N1S 200ml IN 1h",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": []
+     },
+     "date": {
+      "value": "9/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + N1S 200ml",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "9/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 1L IN over 22 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 20720,
+   "credits": 395.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|4ab839057aa5": {
+  "value": [
+   {
+    "text": "daunorubicin",
+    "score": 0.9934461712837219,
+    "rank": 0
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 174,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|9954b9a462c8": {
+  "value": [
+   {
+    "text": "Cytoxan",
+    "score": 0.9923573732376099,
+    "rank": 0
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.9889194965362549,
+    "rank": 1
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.9872848987579346,
+    "rank": 2
+   },
+   {
+    "text": "Cytarabine",
+    "score": 0.19052596390247345,
+    "rank": 3
+   },
+   {
+    "text": "cytarabine Injectable Solution [Cytosar]",
+    "score": 0.03244941309094429,
+    "rank": 4
+   },
+   {
+    "text": "Cytosar Injectable Product",
+    "score": 0.018345369026064873,
+    "rank": 5
+   },
+   {
+    "text": "Cytosar",
+    "score": 0.005916215479373932,
+    "rank": 6
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 146,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|dbe3b24390af": {
+  "value": [
+   {
+    "text": "daunorubicin Injection [DaunoXome]",
+    "score": 0.9951900839805603,
+    "rank": 0
+   },
+   {
+    "text": "daunorubicin liposomal Injection [DaunoXome]",
+    "score": 0.9938702583312988,
+    "rank": 1
+   },
+   {
+    "text": "daunorubicin",
+    "score": 0.9931864738464355,
+    "rank": 2
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 150,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|55b1d51ae77f": {
+  "value": [
+   {
+    "text": "Cytosar",
+    "score": 0.9989535212516785,
+    "rank": 0
+   },
+   {
+    "text": "ara-C 50 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.998719334602356,
+    "rank": 1
+   },
+   {
+    "text": "Cytosar Injectable Product",
+    "score": 0.9984046816825867,
+    "rank": 2
+   },
+   {
+    "text": "ara-C 20 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.9980654120445251,
+    "rank": 3
+   },
+   {
+    "text": "cytarabine Injectable Solution [Cytosar]",
+    "score": 0.9947420358657837,
+    "rank": 4
+   },
+   {
+    "text": "cytosine",
+    "score": 0.227216899394989,
+    "rank": 5
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 183,
+   "credits": 1.0
+  }
+ },
+ "pii|superlinked/pii-redact|3d9320cb4153": {
+  "value": [],
+  "meta": {
+   "model": "superlinked/pii-redact",
+   "ms": 233,
+   "credits": 1.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|465181a36263": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Shubing",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 220,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|0f15fc2b9c2f": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Shubing"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 575,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|1be27f76e308": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytosar",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "150ml N/S 200ml IV over 1 hr",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "150ml N/S over 1 hr"
+      ]
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 20568,
+   "credits": 469.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|8abbb3f4512c": {
+  "value": [
+   {
+    "text": "daunorubicin Injection [DaunoXome]",
+    "score": 0.9948987364768982,
+    "rank": 0
+   },
+   {
+    "text": "daunorubicin liposomal Injection [DaunoXome]",
+    "score": 0.9939353466033936,
+    "rank": 1
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 171,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|8aa504504cb0": {
+  "value": [
+   {
+    "text": "Cytosar",
+    "score": 0.9990835189819336,
+    "rank": 0
+   },
+   {
+    "text": "Cytosar Injectable Product",
+    "score": 0.9966046810150146,
+    "rank": 1
+   },
+   {
+    "text": "cytarabine Injectable Solution [Cytosar]",
+    "score": 0.9881913065910339,
+    "rank": 2
+   },
+   {
+    "text": "cytosine",
+    "score": 0.9801203608512878,
+    "rank": 3
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 138,
+   "credits": 1.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|f399d16101bb": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Shubha",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 347,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|7966d5f2328b": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Shubha"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 531,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|99ba5c3219d4": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "Dr. Shubha",
+     "present": true,
+     "legible": true,
+     "confidence": 0.85,
+     "alternatives": [
+      "Dr. Shubha (40)"
+     ]
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "+ 9mg N/S 200ml IN over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytarabine",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "+ 9mg N/S 1000ml IN over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Daunorubicin",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. @ 200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. @ 1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Daunorubicin",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. 150ml N/S 200ml IN over 1 hr",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "I.V. 150ml N/S over 1 hr"
+      ]
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytarabine",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. + 1L N/S 2212",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "I.V. + 1L N/S"
+      ]
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytarabine",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "+ 9mg N/S 1L IN over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 20202,
+   "credits": 484.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|86358650b431": {
+  "value": [
+   {
+    "text": "Cytarabine",
+    "score": 0.9925635457038879,
+    "rank": 0
+   },
+   {
+    "text": "Cytoxan",
+    "score": 0.031822286546230316,
+    "rank": 1
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.03172314912080765,
+    "rank": 2
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.018394332379102707,
+    "rank": 3
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 165,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|158028a351b1": {
+  "value": [
+   {
+    "text": "daunorubicin Injection [DaunoXome]",
+    "score": 0.9951900839805603,
+    "rank": 0
+   },
+   {
+    "text": "daunorubicin liposomal Injection [DaunoXome]",
+    "score": 0.9938702583312988,
+    "rank": 1
+   },
+   {
+    "text": "daunorubicin",
+    "score": 0.9931864738464355,
+    "rank": 2
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 148,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|d64d8a1393dc": {
+  "value": [
+   {
+    "text": "Cytosar",
+    "score": 0.9989535212516785,
+    "rank": 0
+   },
+   {
+    "text": "ara-C 50 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.998719334602356,
+    "rank": 1
+   },
+   {
+    "text": "ara-C 20 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.9980654120445251,
+    "rank": 2
+   },
+   {
+    "text": "Cytoxan",
+    "score": 0.868913471698761,
+    "rank": 3
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.6308714747428894,
+    "rank": 4
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.47142186760902405,
+    "rank": 5
+   },
+   {
+    "text": "cytosine",
+    "score": 0.227216899394989,
+    "rank": 6
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 147,
+   "credits": 1.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|24880a0bc712": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 233,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|87f1650df5db": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Lee",
+   "prescriber_npi": "4/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 636,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|3a00253281ef": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [
+       "cytarabine"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytosar",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "150ml N/S 200ml IV over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [
+       "cytarabine"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [
+       "cytarabine"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19346,
+   "credits": 393.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|e5b14d653ffe": {
+  "value": [
+   {
+    "text": "Cytarabine",
+    "score": 0.9974358677864075,
+    "rank": 0
+   },
+   {
+    "text": "Cytoxan",
+    "score": 0.9936608672142029,
+    "rank": 1
+   },
+   {
+    "text": "Cystaran",
+    "score": 0.9920436143875122,
+    "rank": 2
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.9664405584335327,
+    "rank": 3
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.9326995611190796,
+    "rank": 4
+   },
+   {
+    "text": "cysteamine 4.4 MG/ML [Cystaran]",
+    "score": 0.8099482655525208,
+    "rank": 5
+   },
+   {
+    "text": "cysteamine Ophthalmic Solution [Cystaran]",
+    "score": 0.5415464043617249,
+    "rank": 6
+   },
+   {
+    "text": "Cystaran Ophthalmic Product",
+    "score": 0.1526327282190323,
+    "rank": 7
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 167,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|f7fe3f6d751a": {
+  "value": [
+   {
+    "text": "Cytosar",
+    "score": 0.9991326928138733,
+    "rank": 0
+   },
+   {
+    "text": "Cytosar Injectable Product",
+    "score": 0.9966027140617371,
+    "rank": 1
+   },
+   {
+    "text": "cytarabine Injectable Solution [Cytosar]",
+    "score": 0.9876956939697266,
+    "rank": 2
+   },
+   {
+    "text": "cytosine",
+    "score": 0.9801174402236938,
+    "rank": 3
+   },
+   {
+    "text": "Cytoxan",
+    "score": 0.9718844294548035,
+    "rank": 4
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.9217591881752014,
+    "rank": 5
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.9166666865348816,
+    "rank": 6
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 183,
+   "credits": 1.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|f7ca15d44a23": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 255,
+   "credits": 6.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|446b8c2fd152": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.9,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.9,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "150ml N/S 200ml IV over 1 hr",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "150ml N/S 200ml IV over 1 hr"
+      ]
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "+ 1L N/S 2212",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "+ 1L N/S 2212"
+      ]
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 20838,
+   "credits": 409.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|608c2461bb47": {
+  "value": [
+   {
+    "text": "Cytoxan",
+    "score": 0.9917319416999817,
+    "rank": 0
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.9883363842964172,
+    "rank": 1
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.9875088930130005,
+    "rank": 2
+   },
+   {
+    "text": "Cytarabine",
+    "score": 0.2073085755109787,
+    "rank": 3
+   },
+   {
+    "text": "cysteamine 4.4 MG/ML [Cystaran]",
+    "score": 0.07746972888708115,
+    "rank": 4
+   },
+   {
+    "text": "Cystaran",
+    "score": 0.028507867828011513,
+    "rank": 5
+   },
+   {
+    "text": "cysteamine Ophthalmic Solution [Cystaran]",
+    "score": 0.01587681844830513,
+    "rank": 6
+   },
+   {
+    "text": "Cystaran Ophthalmic Product",
+    "score": 0.012273534201085567,
+    "rank": 7
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 176,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|05902ed843bb": {
+  "value": [
+   {
+    "text": "Cytosar",
+    "score": 0.9995307922363281,
+    "rank": 0
+   },
+   {
+    "text": "ara-C 50 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.9989168643951416,
+    "rank": 1
+   },
+   {
+    "text": "ara-C 20 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.9987882375717163,
+    "rank": 2
+   },
+   {
+    "text": "cytosine",
+    "score": 0.9382925629615784,
+    "rank": 3
+   },
+   {
+    "text": "Cytoxan",
+    "score": 0.8896019458770752,
+    "rank": 4
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.8672643303871155,
+    "rank": 5
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.6518720984458923,
+    "rank": 6
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 166,
+   "credits": 1.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|cbb72e4eb02d": {
+  "value": {},
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 404,
+   "credits": null
+  }
+ },
+ "tag|fastino/gliner2-large-v1|507f11b51730": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. S. Mubina (MD)",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 456,
+   "credits": 6.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|dddb7dd0ee22": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": [],
+     "bbox": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": [],
+     "bbox": [
+      195,
+      185,
+      440,
+      215
+     ]
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": [],
+     "bbox": [
+      305,
+      230,
+      445,
+      255
+     ]
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": [],
+     "bbox": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": [],
+     "bbox": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": [],
+     "bbox": [
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "DAUNORUGICIN"
+      ],
+      "bbox": [
+       325,
+       400,
+       500,
+       425
+      ]
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       470,
+       400,
+       530,
+       420
+      ]
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 200ml IN over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": [],
+      "bbox": [
+       285,
+       400,
+       600,
+       455
+      ]
+     },
+     "date": {
+      "value": "01/05/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       405,
+       185,
+       425
+      ]
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       325,
+       475,
+       410,
+       500
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       415,
+       475,
+       475,
+       495
+      ]
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 1000ml IN over 24 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": [],
+      "bbox": [
+       285,
+       475,
+       600,
+       530
+      ]
+     },
+     "date": {
+      "value": "01/05/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       405,
+       185,
+       425
+      ]
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       375,
+       555,
+       450,
+       580
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       455,
+       550,
+       520,
+       575
+      ]
+     },
+     "directions": {
+      "value": "Gnj 200ml N1S - ONATE THC",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "Gnj 200ml N1S - ONATE 1h"
+      ],
+      "bbox": [
+       285,
+       555,
+       580,
+       605
+      ]
+     },
+     "date": {
+      "value": "01/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       555,
+       185,
+       575
+      ]
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosate",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": [
+       "cytoxan"
+      ],
+      "bbox": [
+       325,
+       615,
+       420,
+       640
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       425,
+       615,
+       490,
+       635
+      ]
+     },
+     "directions": {
+      "value": "Gnj & 1L N1S - ONATE 24 hours",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [],
+      "bbox": [
+       285,
+       615,
+       580,
+       665
+      ]
+     },
+     "date": {
+      "value": "01/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       555,
+       185,
+       575
+      ]
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       325,
+       690,
+       400,
+       715
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       405,
+       690,
+       465,
+       710
+      ]
+     },
+     "directions": {
+      "value": "Gnj 150ml N1S 200ml IN 1h",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [],
+      "bbox": [
+       285,
+       690,
+       580,
+       740
+      ]
+     },
+     "date": {
+      "value": "9/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       690,
+       185,
+       710
+      ]
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       325,
+       760,
+       410,
+       785
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       415,
+       760,
+       475,
+       780
+      ]
+     },
+     "directions": {
+      "value": "Gnj + N1S 200ml",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [],
+      "bbox": [
+       285,
+       760,
+       580,
+       810
+      ]
+     },
+     "date": {
+      "value": "9/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       690,
+       185,
+       710
+      ]
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       325,
+       830,
+       410,
+       855
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       415,
+       830,
+       475,
+       850
+      ]
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 1L IN over 22 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": [],
+      "bbox": [
+       285,
+       830,
+       600,
+       885
+      ]
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [],
+      "bbox": [
+       115,
+       830,
+       185,
+       850
+      ]
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 28819,
+   "credits": 673.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|0647a7582111": {
+  "value": [
+   {
+    "text": "Cytoxan",
+    "score": 0.04984291270375252,
+    "rank": 0
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.045590590685606,
+    "rank": 1
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.030458062887191772,
+    "rank": 2
+   },
+   {
+    "text": "cytosine",
+    "score": 0.009208917617797852,
+    "rank": 3
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 217,
+   "credits": 1.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|95d630e7c60a": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 493,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|8e8a217767ff": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 256,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|9bbaf600e1a9": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. S. Mubina (MD)",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 405,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|3fdfe5abed72": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 240,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|307901b6c268": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Smith"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 411,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|b23d51b0f57f": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "DAUNORUGICIN"
+      ]
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 200ml IN over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "01/05/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 1000ml IN over 24 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "01/05/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj 200ml N1S - ONATE THC",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "Gnj 200ml N1S - ONATE 1h"
+      ]
+     },
+     "date": {
+      "value": "01/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosate",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": [
+       "cytoxan"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj & 1L N1S - ONATE 24 hours",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": []
+     },
+     "date": {
+      "value": "01/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj 150ml N1S 200ml IN 1h",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": []
+     },
+     "date": {
+      "value": "9/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + N1S 200ml",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "9/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytoxan",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "Gnj + Gnf N1S 1L IN over 22 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19897,
+   "credits": 395.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|5fb4523a33bb": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "9mf N/S 200ml IN over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytara",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytara"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "9mf N/S 1000ml IN over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "150ml N/S 200ml IN over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytara",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytara"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S 2212",
+      "present": true,
+      "legible": true,
+      "confidence": 0.7,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytara",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytara"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "9mf N/S 1L IN over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19337,
+   "credits": 458.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|b478f770d858": {
+  "value": [
+   {
+    "text": "daunorubicin",
+    "score": 0.9930694699287415,
+    "rank": 0
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 215,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|1ad4bbb5e5ef": {
+  "value": [
+   {
+    "text": "Cytoxan",
+    "score": 0.9917319416999817,
+    "rank": 0
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.9883363842964172,
+    "rank": 1
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.9875088930130005,
+    "rank": 2
+   },
+   {
+    "text": "Cytarabine",
+    "score": 0.2073085755109787,
+    "rank": 3
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 150,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|dc949937f138": {
+  "value": [
+   {
+    "text": "daunorubicin Injection [DaunoXome]",
+    "score": 0.9954124093055725,
+    "rank": 0
+   },
+   {
+    "text": "daunorubicin liposomal Injection [DaunoXome]",
+    "score": 0.9935123324394226,
+    "rank": 1
+   },
+   {
+    "text": "daunorubicin",
+    "score": 0.9928497076034546,
+    "rank": 2
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 177,
+   "credits": 1.0
+  }
+ },
+ "locate|Qwen/Qwen3.8-27B-FP8|12718f8ebcda": {
+  "value": {
+   "order": {
+    "patient_name": [
+     145,
+     150,
+     440,
+     175
+    ],
+    "diagnosis": [
+     145,
+     175,
+     440,
+     200
+    ],
+    "regimen": [
+     145,
+     225,
+     440,
+     250
+    ],
+    "body_surface_area": [
+     590,
+     205,
+     875,
+     225
+    ],
+    "prescriber_name": [
+     785,
+     425,
+     865,
+     465
+    ]
+   },
+   "lines": [
+    {
+     "drug_name": [
+      295,
+      385,
+      485,
+      410
+     ],
+     "dose": [
+      490,
+      385,
+      550,
+      410
+     ],
+     "directions": [
+      295,
+      415,
+      550,
+      440
+     ],
+     "date": [
+      135,
+      405,
+      205,
+      430
+     ]
+    },
+    {
+     "drug_name": [
+      295,
+      455,
+      380,
+      480
+     ],
+     "dose": [
+      490,
+      455,
+      550,
+      480
+     ],
+     "directions": [
+      295,
+      485,
+      550,
+      510
+     ],
+     "date": [
+      135,
+      405,
+      205,
+      430
+     ]
+    },
+    {
+     "drug_name": [
+      355,
+      555,
+      450,
+      580
+     ],
+     "dose": [
+      455,
+      555,
+      520,
+      580
+     ],
+     "directions": [
+      295,
+      585,
+      550,
+      610
+     ],
+     "date": [
+      135,
+      555,
+      205,
+      580
+     ]
+    },
+    {
+     "drug_name": [
+      355,
+      605,
+      450,
+      630
+     ],
+     "dose": [
+      455,
+      605,
+      520,
+      630
+     ],
+     "directions": [
+      295,
+      635,
+      550,
+      660
+     ],
+     "date": [
+      135,
+      555,
+      205,
+      580
+     ]
+    },
+    {
+     "drug_name": [
+      355,
+      685,
+      450,
+      710
+     ],
+     "dose": [
+      455,
+      685,
+      520,
+      710
+     ],
+     "directions": [
+      295,
+      715,
+      550,
+      740
+     ],
+     "date": [
+      135,
+      685,
+      205,
+      710
+     ]
+    },
+    {
+     "drug_name": [
+      355,
+      755,
+      450,
+      780
+     ],
+     "dose": [
+      455,
+      755,
+      520,
+      780
+     ],
+     "directions": [
+      295,
+      785,
+      550,
+      810
+     ],
+     "date": [
+      135,
+      685,
+      205,
+      710
+     ]
+    },
+    {
+     "drug_name": [
+      295,
+      825,
+      380,
+      850
+     ],
+     "dose": [
+      490,
+      825,
+      550,
+      850
+     ],
+     "directions": [
+      295,
+      855,
+      550,
+      880
+     ],
+     "date": [
+      135,
+      825,
+      205,
+      850
+     ]
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 10683,
+   "credits": 269.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|7e21eb1a58fd": {
+  "value": {
+   "regimen": "I.V. cytarabine 150mg + 200ml",
+   "prescriber_name": "Dr. Lee",
+   "prescriber_npi": "3/7/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 538,
+   "credits": 2.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|c70b04412d01": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith (MD)"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 599,
+   "credits": 6.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|28939667390f": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "9mg N/S 200ml IN over 1 hour.",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/03/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytarabine",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "9mg N/S 1000ml IN over 24 hours.",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/03/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Daunorubicin",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. 200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. 200ml N/S - over 24 hrs.",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Daunorubicin",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. 150ml N/S 200ml - 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytarabine",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "I.V. + 200ml N/S 2212",
+      "present": true,
+      "legible": true,
+      "confidence": 0.75,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytarabine",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "9mg N/S 2L IN over 22 hours.",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19478,
+   "credits": 459.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|86d2880bf55f": {
+  "value": [
+   {
+    "text": "daunorubicin",
+    "score": 0.9961028099060059,
+    "rank": 0
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 181,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|f7ea058b21c2": {
+  "value": [
+   {
+    "text": "daunorubicin",
+    "score": 0.9959657192230225,
+    "rank": 0
+   },
+   {
+    "text": "daunorubicin Injection [DaunoXome]",
+    "score": 0.9946975708007812,
+    "rank": 1
+   },
+   {
+    "text": "daunorubicin liposomal Injection [DaunoXome]",
+    "score": 0.9913939833641052,
+    "rank": 2
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 311,
+   "credits": 1.0
+  }
+ },
+ "rerank|Qwen/Qwen3-Reranker-0.6B|d6f1c9754075": {
+  "value": [
+   {
+    "text": "ara-C 50 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.9992037415504456,
+    "rank": 0
+   },
+   {
+    "text": "ara-C 20 MG/ML Injectable Solution [Cytosar]",
+    "score": 0.9991244673728943,
+    "rank": 1
+   },
+   {
+    "text": "Cytosar",
+    "score": 0.9990861415863037,
+    "rank": 2
+   },
+   {
+    "text": "Cytoxan",
+    "score": 0.867016613483429,
+    "rank": 3
+   },
+   {
+    "text": "Cytoxan Pill",
+    "score": 0.7293898463249207,
+    "rank": 4
+   },
+   {
+    "text": "Cytoxan Oral Product",
+    "score": 0.6902849078178406,
+    "rank": 5
+   },
+   {
+    "text": "cytosine",
+    "score": 0.2030172348022461,
+    "rank": 6
+   }
+  ],
+  "meta": {
+   "model": "Qwen/Qwen3-Reranker-0.6B",
+   "ms": 189,
+   "credits": 1.0
+  }
+ },
+ "locate|Qwen/Qwen3.8-27B-FP8|1310eb18774e": {
+  "value": {
+   "order": {
+    "patient_name": [
+     170,
+     152,
+     445,
+     184
+    ],
+    "diagnosis": [
+     197,
+     184,
+     478,
+     212
+    ],
+    "regimen": [
+     303,
+     230,
+     518,
+     255
+    ],
+    "body_surface_area": [
+     603,
+     214,
+     873,
+     230
+    ],
+    "prescriber_name": [
+     770,
+     440,
+     873,
+     484
+    ]
+   },
+   "lines": [
+    {
+     "drug_name": [
+      310,
+      401,
+      558,
+      427
+     ],
+     "dose": [
+      618,
+      401,
+      670,
+      434
+     ],
+     "directions": [
+      285,
+      429,
+      658,
+      455
+     ],
+     "date": [
+      103,
+      401,
+      197,
+      427
+     ]
+    },
+    {
+     "drug_name": [
+      295,
+      473,
+      578,
+      501
+     ],
+     "dose": [
+      618,
+      473,
+      670,
+      505
+     ],
+     "directions": [
+      285,
+      499,
+      658,
+      525
+     ],
+     "date": [
+      103,
+      401,
+      197,
+      427
+     ]
+    },
+    {
+     "drug_name": [
+      353,
+      545,
+      658,
+      588
+     ],
+     "dose": [
+      618,
+      545,
+      670,
+      577
+     ],
+     "directions": [
+      285,
+      573,
+      658,
+      601
+     ],
+     "date": [
+      120,
+      545,
+      200,
+      573
+     ]
+    },
+    {
+     "drug_name": [
+      285,
+      599,
+      658,
+      627
+     ],
+     "dose": [
+      618,
+      599,
+      670,
+      627
+     ],
+     "directions": [
+      285,
+      625,
+      658,
+      653
+     ],
+     "date": [
+      120,
+      545,
+      200,
+      573
+     ]
+    },
+    {
+     "drug_name": [
+      353,
+      673,
+      658,
+      701
+     ],
+     "dose": [
+      618,
+      673,
+      670,
+      705
+     ],
+     "directions": [
+      285,
+      701,
+      658,
+      729
+     ],
+     "date": [
+      103,
+      673,
+      197,
+      701
+     ]
+    },
+    {
+     "drug_name": [
+      285,
+      753,
+      658,
+      781
+     ],
+     "dose": [
+      618,
+      753,
+      670,
+      785
+     ],
+     "directions": [
+      285,
+      781,
+      658,
+      809
+     ],
+     "date": [
+      103,
+      673,
+      197,
+      701
+     ]
+    },
+    {
+     "drug_name": [
+      285,
+      825,
+      658,
+      853
+     ],
+     "dose": [
+      618,
+      825,
+      670,
+      857
+     ],
+     "directions": [
+      285,
+      853,
+      658,
+      881
+     ],
+     "date": [
+      103,
+      825,
+      197,
+      853
+     ]
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 10974,
+   "credits": 288.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|8c91f74f6b1f": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 357,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|fbbebd2a056a": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Lee",
+   "prescriber_npi": "4/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 422,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|011316792e97": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/03/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "cytarabine"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/03/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml IV over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "cytarabine"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "cytarabine"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19226,
+   "credits": 395.0
+  }
+ },
+ "locate|Qwen/Qwen3.8-27B-FP8|31763dd24015": {
+  "value": {
+   "order": {
+    "patient_name": [
+     170,
+     152,
+     445,
+     184
+    ],
+    "diagnosis": [
+     197,
+     184,
+     488,
+     212
+    ],
+    "regimen": [
+     303,
+     231,
+     515,
+     255
+    ],
+    "body_surface_area": [
+     603,
+     214,
+     872,
+     231
+    ],
+    "prescriber_name": [
+     770,
+     443,
+     872,
+     488
+    ]
+   },
+   "lines": [
+    {
+     "drug_name": [
+      315,
+      401,
+      565,
+      427
+     ],
+     "dose": [
+      615,
+      401,
+      670,
+      431
+     ],
+     "directions": [
+      285,
+      431,
+      603,
+      455
+     ],
+     "date": [
+      103,
+      405,
+      192,
+      431
+     ]
+    },
+    {
+     "drug_name": [
+      315,
+      475,
+      415,
+      501
+     ],
+     "dose": [
+      615,
+      477,
+      665,
+      505
+     ],
+     "directions": [
+      285,
+      501,
+      565,
+      525
+     ],
+     "date": [
+      103,
+      405,
+      192,
+      431
+     ]
+    },
+    {
+     "drug_name": [
+      392,
+      545,
+      565,
+      585
+     ],
+     "dose": [
+      570,
+      545,
+      655,
+      585
+     ],
+     "directions": [
+      285,
+      585,
+      585,
+      609
+     ],
+     "date": [
+      125,
+      549,
+      205,
+      575
+     ]
+    },
+    {
+     "drug_name": [
+      335,
+      605,
+      488,
+      631
+     ],
+     "dose": [
+      495,
+      605,
+      585,
+      629
+     ],
+     "directions": [
+      415,
+      629,
+      565,
+      653
+     ],
+     "date": [
+      125,
+      549,
+      205,
+      575
+     ]
+    },
+    {
+     "drug_name": [
+      355,
+      675,
+      525,
+      715
+     ],
+     "dose": [
+      615,
+      679,
+      670,
+      705
+     ],
+     "directions": [
+      285,
+      715,
+      488,
+      739
+     ],
+     "date": [
+      103,
+      681,
+      185,
+      707
+     ]
+    },
+    {
+     "drug_name": [
+      355,
+      759,
+      455,
+      785
+     ],
+     "dose": [
+      615,
+      759,
+      670,
+      785
+     ],
+     "directions": [
+      465,
+      759,
+      603,
+      785
+     ],
+     "date": [
+      103,
+      681,
+      185,
+      707
+     ]
+    },
+    {
+     "drug_name": [
+      315,
+      811,
+      455,
+      837
+     ],
+     "dose": [
+      615,
+      811,
+      655,
+      855
+     ],
+     "directions": [
+      285,
+      837,
+      565,
+      861
+     ],
+     "date": [
+      103,
+      811,
+      185,
+      837
+     ]
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 11483,
+   "credits": 281.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|93aae417ee92": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Smith",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 224,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|4455d842a6f3": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Lee"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 360,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|0500d2fbda5a": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0.0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytosar",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": [
+       "Daunorubicin"
+      ]
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "150ml N/S 200ml IV over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.85,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S 24 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "cytarabine",
+       "cytosar"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19481,
+   "credits": 473.0
+  }
+ },
+ "locate|Qwen/Qwen3.8-27B-FP8|75fd6625b6f4": {
+  "value": {
+   "order": {
+    "patient_name": [
+     170,
+     152,
+     445,
+     187
+    ],
+    "diagnosis": [
+     198,
+     184,
+     498,
+     212
+    ],
+    "regimen": [
+     300,
+     231,
+     515,
+     255
+    ],
+    "body_surface_area": [
+     600,
+     214,
+     875,
+     231
+    ],
+    "prescriber_name": [
+     770,
+     442,
+     875,
+     488
+    ]
+   },
+   "lines": [
+    {
+     "drug_name": [
+      315,
+      401,
+      565,
+      427
+     ],
+     "dose": [
+      620,
+      401,
+      675,
+      431
+     ],
+     "directions": [
+      285,
+      431,
+      615,
+      457
+     ],
+     "date": [
+      105,
+      401,
+      195,
+      427
+     ]
+    },
+    {
+     "drug_name": [
+      315,
+      475,
+      415,
+      500
+     ],
+     "dose": [
+      620,
+      475,
+      675,
+      505
+     ],
+     "directions": [
+      285,
+      498,
+      565,
+      525
+     ],
+     "date": [
+      105,
+      401,
+      195,
+      427
+     ]
+    },
+    {
+     "drug_name": [
+      385,
+      545,
+      565,
+      585
+     ],
+     "dose": [
+      565,
+      545,
+      645,
+      585
+     ],
+     "directions": [
+      285,
+      585,
+      565,
+      610
+     ],
+     "date": [
+      125,
+      545,
+      205,
+      575
+     ]
+    },
+    {
+     "drug_name": [
+      335,
+      600,
+      465,
+      625
+     ],
+     "dose": [
+      465,
+      595,
+      565,
+      620
+     ],
+     "directions": [
+      405,
+      620,
+      565,
+      645
+     ],
+     "date": [
+      125,
+      545,
+      205,
+      575
+     ]
+    },
+    {
+     "drug_name": [
+      335,
+      675,
+      495,
+      710
+     ],
+     "dose": [
+      620,
+      675,
+      675,
+      705
+     ],
+     "directions": [
+      285,
+      705,
+      465,
+      730
+     ],
+     "date": [
+      105,
+      675,
+      185,
+      705
+     ]
+    },
+    {
+     "drug_name": [
+      335,
+      755,
+      445,
+      785
+     ],
+     "dose": [
+      620,
+      755,
+      675,
+      785
+     ],
+     "directions": [
+      455,
+      755,
+      615,
+      780
+     ],
+     "date": [
+      105,
+      675,
+      185,
+      705
+     ]
+    },
+    {
+     "drug_name": [
+      285,
+      810,
+      445,
+      840
+     ],
+     "dose": [
+      620,
+      810,
+      665,
+      840
+     ],
+     "directions": [
+      285,
+      840,
+      565,
+      865
+     ],
+     "date": [
+      105,
+      810,
+      185,
+      840
+     ]
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 10990,
+   "credits": 287.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|2cf1a6a98ef3": {
+  "value": {
+   "patient_name": "[Redacted]",
+   "diagnosis": "Acute myeloid leukaemia",
+   "regimen": "3+7 protocol",
+   "body_surface_area": "Chemotherapy",
+   "prescriber_name": "Dr. Shubing (MD)",
+   "prescriber_npi": "2/9/24"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 319,
+   "credits": 6.0
+  }
+ },
+ "tag|fastino/gliner2-large-v1|bae77468bbd9": {
+  "value": {
+   "regimen": "CID4",
+   "prescriber_name": "Dr. Shubing (MD)"
+  },
+  "meta": {
+   "model": "fastino/gliner2-large-v1",
+   "ms": 391,
+   "credits": 2.0
+  }
+ },
+ "parse|Qwen/Qwen3.8-27B-FP8|f912fa1c70f1": {
+  "value": {
+   "order": {
+    "patient_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "diagnosis": {
+     "value": "Acute myeloid leukaemia",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "regimen": {
+     "value": "3+7 protocol",
+     "present": true,
+     "legible": true,
+     "confidence": 0.95,
+     "alternatives": []
+    },
+    "body_surface_area": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_name": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    },
+    "prescriber_npi": {
+     "value": "",
+     "present": false,
+     "legible": false,
+     "confidence": 0,
+     "alternatives": []
+    }
+   },
+   "medications": [
+    {
+     "drug_name": {
+      "value": "DAUNORUBICIN",
+      "present": true,
+      "legible": true,
+      "confidence": 0.95,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "90mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 200ml IV over 1 hour",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1000ml IV over 24 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "04/09/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "200ml N/S - over 1 hr",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Cytosar-C",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S - over 24 hrs",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "2/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "Dauno",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "dose": {
+      "value": "80mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "150ml N/S 200ml IV over 1 hr",
+      "present": true,
+      "legible": false,
+      "confidence": 0.6,
+      "alternatives": [
+       "150ml N/S 200ml IV over 1 hr"
+      ]
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "1L N/S",
+      "present": true,
+      "legible": true,
+      "confidence": 0.8,
+      "alternatives": []
+     },
+     "date": {
+      "value": "3/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    },
+    {
+     "drug_name": {
+      "value": "cytaran",
+      "present": true,
+      "legible": false,
+      "confidence": 0.5,
+      "alternatives": [
+       "cytarabine",
+       "cytaran"
+      ]
+     },
+     "dose": {
+      "value": "150mg",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "directions": {
+      "value": "N/S 1L IV over 22 hours",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     },
+     "date": {
+      "value": "4/9/24",
+      "present": true,
+      "legible": true,
+      "confidence": 0.9,
+      "alternatives": []
+     }
+    }
+   ]
+  },
+  "meta": {
+   "model": "Qwen/Qwen3.8-27B-FP8",
+   "ms": 19458,
+   "credits": 472.0
+  }
+ }
+}

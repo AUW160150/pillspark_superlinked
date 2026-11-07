@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Runtime data: orders, uploads, memory, cognee stores, registry cache
+data/
+backend/tests/.tmpdata/
+
+# Real patient documents: only the redacted copies in backend/samples and landing/assets are published
+baba's_chemo_image.jpeg
+*_unredacted.*
+
+# Local working notes
+prompt.md
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Tooling
+.unlazy/
+.unlazy-hook-state.json
+.claude/settings.local.json
+.impeccable/
+.DS_Store

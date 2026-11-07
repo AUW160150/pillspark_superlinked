@@ -1,0 +1,15 @@
+# Python 3.12+ (sie-sdk requires >=3.12). Versions as tested on 2026-11-07.
+sie-sdk==0.11.0
+cognee==1.6.7
+fastapi==0.162.2
+uvicorn[standard]==0.54.0
+httpx==0.28.1
+pillow==13.0.0
+numpy==2.5.4
+pydantic==2.14.3
+python-multipart==0.0.33
+python-dotenv==1.2.4
+PyYAML==6.0.3
+# sie-sdk declares websockets<15 but cognee needs 15; SIE's HTTP calls used here work with 15.0.1
+websockets==15.0.1
+pytest==9.2.0

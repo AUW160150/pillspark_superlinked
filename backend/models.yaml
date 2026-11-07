@@ -1,0 +1,8 @@
+# One line per agent job. Swapping a model is a one-line change.
+# All are open models served on Superlinked SIE (exact ids from GET /v1/models, 2026-11-07).
+ocr_primary: lightonai/LightOnOCR-3-4B      # page image -> Markdown (reader 1)
+ocr_secondary: zai-org/GLM-OCR             # page image -> Markdown (reader 2, independent)
+field_tagger: fastino/gliner2-large-v1     # OCR text -> order-field spans (output_schema)
+structured_parse: Qwen/Qwen3.8-27B-FP8     # image + one OCR transcript -> strict JSON order
+reranker: Qwen/Qwen3-Reranker-0.6B         # ranks RxNorm drug candidates against the OCR line
+pii: superlinked/pii-redact                # strips identifiers before anything reaches memory
