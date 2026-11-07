@@ -1,5 +1,7 @@
 # PillSpark: read the fax, flag the doubt, never guess
 
+**▶ [Product demo](https://localhostai.nyc/submit?e=qg4vbcj3243w3mzroduer3bbx4)** (LOCALHOST NYC submission)
+
 > **Decision support only. A licensed pharmacist must review every order.** The demo document is a real handwritten
 > chemotherapy chart with the patient's name and registration number removed from the image itself.
 
