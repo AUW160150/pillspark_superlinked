@@ -1,0 +1,32 @@
+# Render Blueprint for PillSpark (one Docker web service).
+# Free plan: sleeps after 15 min idle, 512 MB RAM, no persistent disk (orders and memory reset on restart).
+# Memory: cognee runs a separate database worker; measured ~1.1 GB total in the container, so Free/Starter (512 MB)
+# use MEMORY_BACKEND=local (~250 MB). For cognee use plan: standard (2 GB) with MEMORY_BACKEND=auto, and add a disk
+# mounted at /var/data with PILLSPARK_DATA_DIR=/var/data so orders, audit and memory persist.
+services:
+  - type: web
+    name: pillspark
+    runtime: docker
+    plan: free
+    region: oregon
+    repo: https://github.com/AUW160150/pillspark_superlinked
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      - key: SIE_API_KEY
+        sync: false                 # set in the Render dashboard; never committed
+      - key: SIE_BASE_URL
+        value: https://api.superlinked.com
+      - key: MODEL_BACKEND
+        value: sie
+      - key: MEMORY_BACKEND
+        value: local                # auto (cognee) needs ~1.1 GB: use plan standard
+      - key: PILLSPARK_DATA_DIR
+        value: /tmp/pillspark
+      - key: PILLSPARK_RECORD
+        value: "0"                  # don't write OCR of uploaded documents to disk
+      - key: PILLSPARK_MAX_LIVE_RUNS_PER_HOUR
+        value: "30"
+      - key: APP_ORIGIN
+        value: https://pillspark.onrender.com

@@ -1,0 +1,12 @@
+.git
+.venv
+.env
+.env.*
+!.env.example
+data
+prompt.md
+baba's_chemo_image.jpeg
+**/__pycache__
+**/.pytest_cache
+backend/tests/.tmpdata
+.DS_Store

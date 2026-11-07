@@ -181,7 +181,8 @@ itself. A unit test pins exactly that case.
 ## Run it
 
 ```bash
-python3.12 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
+python3.12 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt \
+  && .venv/bin/pip install --no-deps -r backend/requirements-sie.txt   # see the note in requirements.txt
 cp .env.example .env            # add SIE_API_KEY
 .venv/bin/python -m uvicorn app.main:app --app-dir backend --port 8010
 open http://127.0.0.1:8010/     # press "Process sample chart" or drop an image
@@ -190,6 +191,21 @@ open http://127.0.0.1:8010/     # press "Process sample chart" or drop an image
 - **Without `SIE_API_KEY`** (or with `MODEL_BACKEND=mock`), the server replays a **recorded live SIE run** of the sample chart from `backend/fixtures/`, and every replayed event is labelled as a replay.
 - **Opened as a static file** with no backend, the page plays a scripted, clearly labelled replay instead.
 - **For real PHI:** SIE Serverless is a third-party processor. Use a signed agreement or self-hosted SIE via `SIE_BASE_URL`.
+
+## Deploy (Render)
+
+`render.yaml` is a Render Blueprint for one Docker web service built from the `Dockerfile` (the FastAPI app plus the
+landing page, bound to `$PORT`, health check `/healthz`, running as a non-root user). Set `SIE_API_KEY` in the Render
+dashboard; it is never committed.
+
+| Plan | Memory backend | Notes |
+|---|---|---|
+| Free (current demo) | `MEMORY_BACKEND=local` | 512 MB RAM (the container measured ~250 MB); sleeps after 15 min idle; no disk, so orders and memory reset on restart |
+| Standard (2 GB) + disk | `MEMORY_BACKEND=auto` (cognee) | cognee plus its database worker measured ~1.1 GB; mount a disk at `/var/data` and set `PILLSPARK_DATA_DIR=/var/data` |
+
+Public deployments cap live SIE runs with `PILLSPARK_MAX_LIVE_RUNS_PER_HOUR` (default 30). Past the cap, the sample
+chart replays its recorded live run (labelled as a replay) and uploads get HTTP 429, so a public URL can't drain the
+SIE credits. `PILLSPARK_RECORD=0` keeps OCR of uploaded documents off disk.
 
 ## API
 

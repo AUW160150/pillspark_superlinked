@@ -1,5 +1,7 @@
-# Python 3.12+ (sie-sdk requires >=3.12). Versions as tested on 2026-11-07.
-sie-sdk==0.11.0
+# Python 3.12+. Versions as tested on 2026-11-07.
+# sie-sdk 0.11.0 pins websockets<15 but cognee needs websockets 15, so pip can't resolve both in one go.
+# sie-sdk is therefore installed separately with --no-deps (see backend/requirements-sie.txt); its other
+# dependencies are listed here. PillSpark only uses SIE's HTTP calls, which work with websockets 15.
 cognee==1.6.7
 fastapi==0.162.2
 uvicorn[standard]==0.54.0
@@ -10,6 +12,9 @@ pydantic==2.14.3
 python-multipart==0.0.33
 python-dotenv==1.2.4
 PyYAML==6.0.3
-# sie-sdk declares websockets<15 but cognee needs 15; SIE's HTTP calls used here work with 15.0.1
 websockets==15.0.1
+# sie-sdk's own dependencies
+aiohttp==3.14.5
+msgpack==1.2.4
+msgpack-numpy==0.4.8
 pytest==9.2.0

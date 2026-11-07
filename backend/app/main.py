@@ -105,6 +105,8 @@ async def _startup():
 
 # ------------------------------------------------------------------ rate limit (per client IP, sliding window)
 _hits: Dict[str, deque] = defaultdict(deque)
+_live_runs: deque = deque()
+MAX_LIVE_RUNS_PER_HOUR = int(os.environ.get("PILLSPARK_MAX_LIVE_RUNS_PER_HOUR", "30"))
 
 
 def _rate_limit(request: Request, limit: int = 20, window: float = 60.0):
@@ -154,10 +156,21 @@ async def intake(request: Request, file: Optional[UploadFile] = File(None), idem
     if fmt not in ("jpeg", "png", "webp"):
         raise HTTPException(415, f"Unsupported image type {fmt!r}. Upload JPEG, PNG or WebP.")
     sha = hashlib.sha256(data).hexdigest()
-    (config.UPLOAD_DIR / f"{sha}.img").write_bytes(data)
     backend = config.MODEL_BACKEND
     if backend == "sie" and not config.SIE_API_KEY:
         backend = "mock"
+    # Public deployments: cap live SIE runs per hour so a public URL can't drain the credits.
+    now = time.time()
+    while _live_runs and now - _live_runs[0] > 3600:
+        _live_runs.popleft()
+    if backend == "sie" and len(_live_runs) >= MAX_LIVE_RUNS_PER_HOUR:
+        if file is None and (config.FIXTURE_DIR / f"{sha[:16]}.json").exists():
+            backend = "mock"           # the sample replays its recorded live run, labelled as a replay
+        else:
+            raise HTTPException(429, f"The live demo is limited to {MAX_LIVE_RUNS_PER_HOUR} live runs an hour. Try the sample chart, or again later.")
+    if backend == "sie":
+        _live_runs.append(now)
+    (config.UPLOAD_DIR / f"{sha}.img").write_bytes(data)
     o = Order(order_id=f"PS-{uuid.uuid4().hex[:6].upper()}", filename=filename, sha256=sha, created_at=time.time(), model_backend=backend)
     store.save_order(o, idempotency_key)
     store.audit(o.order_id, "intake-agent", "created", None, None, "queued", f"{filename} ({len(data) // 1024} KB)")
