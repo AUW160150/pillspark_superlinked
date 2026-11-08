@@ -1,6 +1,10 @@
 # PillSpark: read the fax, flag the doubt, never guess
 
-**▶ [Product demo](https://localhostai.nyc/submit?e=qg4vbcj3243w3mzroduer3bbx4)** (LOCALHOST NYC submission)
+**🌐 Live product: [pillspark.onrender.com](https://pillspark.onrender.com)** · **▶ [Product demo](https://localhostai.nyc/submit?e=qg4vbcj3243w3mzroduer3bbx4)** (LOCALHOST NYC submission)
+
+> The hosted demo runs on Render's free plan: the first visit after 15 idle minutes takes about a minute to wake, and the
+> first run after a long pause can include an SIE cold start (LightOnOCR took ~100 s once; warm runs take ~40 s).
+> Live runs are capped per hour; past the cap the sample replays a recorded live run, labelled as such.
 
 > **Decision support only. A licensed pharmacist must review every order.** The demo document is a real handwritten
 > chemotherapy chart with the patient's name and registration number removed from the image itself.
@@ -200,7 +204,7 @@ dashboard; it is never committed.
 
 | Plan | Memory backend | Notes |
 |---|---|---|
-| Free (current demo) | `MEMORY_BACKEND=local` | 512 MB RAM (the container measured ~250 MB); sleeps after 15 min idle; no disk, so orders and memory reset on restart |
+| Free (current demo at [pillspark.onrender.com](https://pillspark.onrender.com)) | `MEMORY_BACKEND=local` | 512 MB RAM (the container measured ~250 MB); sleeps after 15 min idle; no disk, so orders and memory reset on restart |
 | Standard (2 GB) + disk | `MEMORY_BACKEND=auto` (cognee) | cognee plus its database worker measured ~1.1 GB; mount a disk at `/var/data` and set `PILLSPARK_DATA_DIR=/var/data` |
 
 Public deployments cap live SIE runs with `PILLSPARK_MAX_LIVE_RUNS_PER_HOUR` (default 30). Past the cap, the sample
